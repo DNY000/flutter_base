@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "message": "Đăng nhập thành công",
+  "data": {
+    "id": "usr_001",
+    "email": "test@example.com",
+    "name": "TEST USER",
+    "avatarUrl": "https://example.com/avatar.jpg",
+    "phoneNumber": "+84987654321"
+  }
+}

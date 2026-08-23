@@ -1,0 +1,67 @@
+name: Flutter CD Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger when creating a release tag (e.g. v1.0.0)
+
+jobs:
+  build-android:
+    name: Build Android App Bundle (AAB)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 🐦 Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🔨 Build Android App Bundle (.aab)
+        run: flutter build appbundle --release --obfuscate --split-debug-info=build/app/outputs/symbols
+
+      - name: 📦 Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-app-bundle
+          path: build/app/outputs/bundle/release/*.aab
+
+  build-ios:
+    name: Build iOS Runner
+    runs-on: macos-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐦 Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🔨 Build iOS IPA (No-codesign for CI artifact)
+        run: flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/ios/outputs/symbols
+
+      - name: 📦 Upload iOS Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-runner-payload
+          path: build/ios/iphoneos/Runner.app

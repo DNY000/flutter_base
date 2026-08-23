@@ -1,0 +1,40 @@
+# Fastlane Automation Fastfile for Enterprise Deployment
+default_platform(:android)
+
+platform :android do
+  desc "Chạy kiểm thử và build APK cho môi trường Beta (Firebase App Distribution)"
+  lane :beta do
+    gradle(task: "clean")
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+      flavor: "staging"
+    )
+    # Tải lên Firebase App Distribution
+    # firebase_app_distribution(
+    #   app: ENV["FIREBASE_ANDROID_APP_ID"],
+    #   groups: "testers"
+    # )
+  end
+
+  desc "Build AAB và phát hành lên Google Play Console (Internal Testing)"
+  lane :release_playstore do
+    gradle(task: "bundle", build_type: "Release")
+    # upload_to_play_store(
+    #   track: 'internal',
+    #   aab: '../build/app/outputs/bundle/release/app-release.aab'
+    # )
+  end
+end
+
+platform :ios do
+  desc "Build và phát hành bản Beta lên TestFlight"
+  lane :beta do
+    build_app(
+      workspace: "ios/Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store"
+    )
+    # upload_to_testflight
+  end
+end

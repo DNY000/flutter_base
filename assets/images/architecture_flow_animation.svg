@@ -1,0 +1,288 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="50%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <!-- Glowing Card Gradients -->
+    <linearGradient id="mainCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <linearGradient id="primaryGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+
+    <linearGradient id="successGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="firebaseGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#EF4444" />
+    </linearGradient>
+
+    <!-- Filters for Glow Effects -->
+    <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+
+    <!-- CSS Keyframe Animations -->
+    <style>
+      /* Flow Line Animations */
+      .flow-path {
+        stroke-dasharray: 8 8;
+        animation: dashMove 2s linear infinite;
+      }
+      .flow-reverse {
+        stroke-dasharray: 8 8;
+        animation: dashMoveReverse 2s linear infinite;
+      }
+      @keyframes dashMove {
+        from { stroke-dashoffset: 32; }
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes dashMoveReverse {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: 32; }
+      }
+
+      /* Pulse Animations for Nodes */
+      .node-pulse {
+        animation: pulseEffect 3s ease-in-out infinite;
+      }
+      @keyframes pulseEffect {
+        0%, 100% { transform: scale(1); opacity: 0.95; }
+        50% { transform: scale(1.02); opacity: 1; filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.6)); }
+      }
+
+      /* Floating Particle Packets */
+      .particle-1 {
+        animation: moveP1 4s ease-in-out infinite;
+      }
+      .particle-2 {
+        animation: moveP2 4s ease-in-out infinite 2s;
+      }
+      @keyframes moveP1 {
+        0% { transform: translate(140px, 270px); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translate(320px, 270px); opacity: 0; }
+      }
+      @keyframes moveP2 {
+        0% { transform: translate(480px, 270px); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translate(660px, 270px); opacity: 0; }
+      }
+
+      /* Step Highlighting Indicator */
+      .step-glow {
+        animation: stepGlow 6s infinite ease-in-out;
+      }
+      @keyframes stepGlow {
+        0%, 100% { stroke: #6366F1; stroke-width: 2; }
+        33% { stroke: #38BDF8; stroke-width: 3; }
+        66% { stroke: #10B981; stroke-width: 3; }
+      }
+
+      /* Text Fade */
+      .text-glow {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="960" height="540" fill="url(#bgGrad)" />
+  
+  <!-- Subtle Grid Lines -->
+  <g stroke="#1E293B" stroke-width="0.5" opacity="0.4">
+    <path d="M0 90 H960 M0 180 H960 M0 270 H960 M0 360 H960 M0 450 H960" />
+    <path d="M160 0 V540 M320 0 V540 M480 0 V540 M640 0 V540 M800 0 V540" />
+  </g>
+
+  <!-- Top Title Banner -->
+  <g transform="translate(480, 45)" text-anchor="middle" class="text-glow">
+    <text font-size="22" font-weight="bold" fill="#F8FAFC" letter-spacing="1">
+      ⚡ FLUTTER ENTERPRISE ARCHITECTURE RUNTIME FLOW
+    </text>
+    <text y="24" font-size="13" fill="#94A3B8">
+      Luồng Hoạt Động &amp; Điều Phối Dữ Liệu Thời Gian Thực (Clean Arch • BLoC 9 • Hive CE • Firebase)
+    </text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- CONNECTION FLOW LINES (Animated) -->
+  <!-- ===================================================================== -->
+  <!-- 1. Bootstrap to Core -->
+  <path d="M 170 190 L 170 230" stroke="#6366F1" stroke-width="2.5" class="flow-path" fill="none" />
+  
+  <!-- 2. Core to Services & Storage -->
+  <path d="M 230 270 L 320 270" stroke="#38BDF8" stroke-width="2.5" class="flow-path" fill="none" />
+  
+  <!-- 3. Cache & Network to Domain / BLoC -->
+  <path d="M 460 270 L 530 270" stroke="#8B5CF6" stroke-width="2.5" class="flow-path" fill="none" />
+
+  <!-- 4. BLoC to Presentation / UI -->
+  <path d="M 670 270 L 760 270" stroke="#10B981" stroke-width="2.5" class="flow-path" fill="none" />
+
+  <!-- 5. Offline Fallback Arc (Hive Storage -> UI) -->
+  <path d="M 390 340 C 390 440, 830 440, 830 360" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 6" class="flow-reverse" fill="none" />
+  <text x="610" y="445" font-size="11" font-weight="600" fill="#F59E0B" text-anchor="middle" class="text-glow">
+    📶 Offline Mode Fallback: Tự động tải từ Hive CE Cache khi mất mạng
+  </text>
+
+  <!-- ===================================================================== -->
+  <!-- STEP 1: APP LAUNCH & BOOTSTRAP (Left Node) -->
+  <!-- ===================================================================== -->
+  <g transform="translate(60, 110)" class="node-pulse" filter="url(#dropShadow)">
+    <rect width="180" height="80" rx="12" fill="url(#mainCardGrad)" stroke="#6366F1" stroke-width="1.5" />
+    <circle cx="28" cy="28" r="14" fill="#6366F1" fill-opacity="0.2" />
+    <text x="28" y="33" font-size="13" font-weight="bold" fill="#818CF8" text-anchor="middle">1</text>
+    <text x="50" y="32" font-size="14" font-weight="bold" fill="#F8FAFC" class="text-glow">Khởi Động App</text>
+    <text x="50" y="52" font-size="11" fill="#94A3B8" class="text-glow">• main.dart init</text>
+    <text x="50" y="68" font-size="11" fill="#94A3B8" class="text-glow">• AppConfig Flavors</text>
+  </g>
+
+  <!-- STEP 2: DEPENDENCY INJECTION & INFRA (Core Node) -->
+  <g transform="translate(60, 230)" filter="url(#dropShadow)">
+    <rect width="180" height="110" rx="12" fill="url(#mainCardGrad)" stroke="#38BDF8" stroke-width="1.5" class="step-glow" />
+    <circle cx="28" cy="28" r="14" fill="#38BDF8" fill-opacity="0.2" />
+    <text x="28" y="33" font-size="13" font-weight="bold" fill="#38BDF8" text-anchor="middle">2</text>
+    <text x="50" y="32" font-size="14" font-weight="bold" fill="#F8FAFC" class="text-glow">GetIt DI &amp; Core</text>
+    <text x="20" y="60" font-size="11" fill="#94A3B8" class="text-glow">🔥 Firebase.initializeApp()</text>
+    <text x="20" y="78" font-size="11" fill="#94A3B8" class="text-glow">🌐 EasyLocalization (i18n)</text>
+    <text x="20" y="96" font-size="11" fill="#94A3B8" class="text-glow">💉 Service Locator Init</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- STEP 3: DATA & CACHE LAYER (Center Node) -->
+  <!-- ===================================================================== -->
+  <g transform="translate(310, 200)" filter="url(#dropShadow)">
+    <rect width="160" height="145" rx="14" fill="url(#mainCardGrad)" stroke="#8B5CF6" stroke-width="1.5" />
+    <circle cx="28" cy="28" r="14" fill="#8B5CF6" fill-opacity="0.2" />
+    <text x="28" y="33" font-size="13" font-weight="bold" fill="#A78BFA" text-anchor="middle">3</text>
+    <text x="50" y="32" font-size="14" font-weight="bold" fill="#F8FAFC" class="text-glow">Data &amp; Cache</text>
+    
+    <!-- Sub Block: Remote API -->
+    <rect x="15" y="48" width="130" height="38" rx="6" fill="#1E1B4B" stroke="#6366F1" stroke-width="1" />
+    <text x="80" y="66" font-size="11" font-weight="bold" fill="#C7D2FE" text-anchor="middle" class="text-glow">Dio HTTP Client</text>
+    <text x="80" y="79" font-size="9" fill="#94A3B8" text-anchor="middle" class="text-glow">Auto Refresh JWT 401</text>
+
+    <!-- Sub Block: Hive Cache -->
+    <rect x="15" y="94" width="130" height="38" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1" />
+    <text x="80" y="112" font-size="11" font-weight="bold" fill="#A7F3D0" text-anchor="middle" class="text-glow">📦 Hive CE Storage</text>
+    <text x="80" y="125" font-size="9" fill="#6EE7B7" text-anchor="middle" class="text-glow">TTL &amp; Offline Cache</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- STEP 4: DOMAIN & BLOC STATE MANAGEMENT (State Node) -->
+  <!-- ===================================================================== -->
+  <g transform="translate(530, 200)" filter="url(#dropShadow)">
+    <rect width="150" height="145" rx="14" fill="url(#mainCardGrad)" stroke="#10B981" stroke-width="1.5" />
+    <circle cx="28" cy="28" r="14" fill="#10B981" fill-opacity="0.2" />
+    <text x="28" y="33" font-size="13" font-weight="bold" fill="#34D399" text-anchor="middle">4</text>
+    <text x="50" y="32" font-size="14" font-weight="bold" fill="#F8FAFC" class="text-glow">BLoC 9 State</text>
+
+    <!-- Sub Block: UseCase -->
+    <rect x="15" y="48" width="120" height="38" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1" />
+    <text x="75" y="66" font-size="11" font-weight="bold" fill="#F1F5F9" text-anchor="middle" class="text-glow">🎯 Domain UseCase</text>
+    <text x="75" y="79" font-size="9" fill="#94A3B8" text-anchor="middle" class="text-glow">Either&lt;Failure, Entity&gt;</text>
+
+    <!-- Sub Block: Event-Driven BLoC -->
+    <rect x="15" y="94" width="120" height="38" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1" />
+    <text x="75" y="112" font-size="11" font-weight="bold" fill="#34D399" text-anchor="middle" class="text-glow">⚡ Events &amp; States</text>
+    <text x="75" y="125" font-size="9" fill="#94A3B8" text-anchor="middle" class="text-glow">Reactive Stream</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- STEP 5: PRESENTATION & SHARED UI KIT (Right Phone Mockup) -->
+  <!-- ===================================================================== -->
+  <g transform="translate(740, 110)" class="node-pulse" filter="url(#dropShadow)">
+    <!-- Smartphone Frame -->
+    <rect width="170" height="270" rx="20" fill="#0F172A" stroke="#6366F1" stroke-width="2.5" />
+    <!-- Dynamic Island / Speaker -->
+    <rect x="60" y="8" width="50" height="6" rx="3" fill="#334155" />
+    
+    <!-- Phone Screen Content -->
+    <rect x="10" y="24" width="150" height="236" rx="12" fill="#1E293B" />
+    
+    <!-- Header App Bar in Phone -->
+    <rect x="10" y="24" width="150" height="32" rx="0" fill="#4F46E5" />
+    <text x="85" y="44" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle" class="text-glow">Widgets Gallery UI</text>
+    
+    <!-- Button Item 1 -->
+    <rect x="22" y="66" width="126" height="26" rx="6" fill="url(#primaryGlow)" />
+    <text x="85" y="83" font-size="9" font-weight="bold" fill="#FFFFFF" text-anchor="middle" class="text-glow">Primary Button (Active)</text>
+
+    <!-- SuperTooltip Simulation -->
+    <rect x="35" y="100" width="100" height="22" rx="4" fill="#0F172A" stroke="#8B5CF6" stroke-width="1" />
+    <text x="85" y="114" font-size="8" fill="#E2E8F0" text-anchor="middle" class="text-glow">💬 SuperTooltip Arrow</text>
+
+    <!-- Progress Rings in Phone -->
+    <circle cx="55" cy="155" r="18" fill="none" stroke="#334155" stroke-width="3.5" />
+    <circle cx="55" cy="155" r="18" fill="none" stroke="#10B981" stroke-width="3.5" stroke-dasharray="80 30" class="flow-path" />
+    <text x="55" y="158" font-size="8" font-weight="bold" fill="#34D399" text-anchor="middle">85%</text>
+
+    <!-- OTP Input Box Simulation -->
+    <g transform="translate(90, 142)">
+      <rect x="0" y="0" width="12" height="16" rx="2" fill="#0F172A" stroke="#6366F1" />
+      <rect x="15" y="0" width="12" height="16" rx="2" fill="#0F172A" stroke="#6366F1" />
+      <rect x="30" y="0" width="12" height="16" rx="2" fill="#0F172A" stroke="#6366F1" />
+      <text x="6" y="12" font-size="9" fill="#FFFFFF" text-anchor="middle">•</text>
+      <text x="21" y="12" font-size="9" fill="#FFFFFF" text-anchor="middle">•</text>
+      <text x="36" y="12" font-size="9" fill="#FFFFFF" text-anchor="middle">•</text>
+    </g>
+
+    <!-- Slidable List Tile -->
+    <rect x="22" y="190" width="126" height="30" rx="6" fill="#0F172A" stroke="#38BDF8" stroke-width="1" />
+    <text x="30" y="208" font-size="8" font-weight="bold" fill="#38BDF8" class="text-glow">👈 Slidable Tile</text>
+    <rect x="110" y="194" width="34" height="22" rx="4" fill="#EF4444" />
+    <text x="127" y="208" font-size="8" fill="#FFFFFF" text-anchor="middle">Xóa</text>
+
+    <!-- Bottom Nav Bar -->
+    <rect x="10" y="235" width="150" height="25" fill="#0F172A" />
+    <circle cx="45" cy="247" r="4" fill="#6366F1" />
+    <circle cx="85" cy="247" r="4" fill="#64748B" />
+    <circle cx="125" cy="247" r="4" fill="#64748B" />
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- BOTTOM STATUS BAR / LEGEND -->
+  <!-- ===================================================================== -->
+  <g transform="translate(60, 485)" class="text-glow">
+    <rect width="840" height="36" rx="8" fill="#1E293B" stroke="#334155" stroke-width="1" />
+    
+    <circle cx="30" cy="18" r="5" fill="#6366F1" />
+    <text x="42" y="22" font-size="11" fill="#E2E8F0">1. Khởi động Flavors</text>
+
+    <circle cx="190" cy="18" r="5" fill="#38BDF8" />
+    <text x="202" y="22" font-size="11" fill="#E2E8F0">2. Firebase &amp; DI</text>
+
+    <circle cx="330" cy="18" r="5" fill="#8B5CF6" />
+    <text x="342" y="22" font-size="11" fill="#E2E8F0">3. Dio &amp; Hive Cache</text>
+
+    <circle cx="490" cy="18" r="5" fill="#10B981" />
+    <text x="502" y="22" font-size="11" fill="#E2E8F0">4. BLoC 9 State Engine</text>
+
+    <circle cx="680" cy="18" r="5" fill="#F59E0B" />
+    <text x="692" y="22" font-size="11" fill="#E2E8F0">5. Reactive UI Rendering</text>
+  </g>
+</svg>

@@ -1,0 +1,124 @@
+include: package:flutter_lints/flutter.yaml
+
+# ==============================================================================
+# BỘ QUY TẮC LINT CHUẨN PRODUCTION CHO DỰ ÁN FLUTTER
+# ==============================================================================
+# Hướng tới: An toàn bộ nhớ (Memory Leak), Tối ưu hiệu năng render (Const/Rebuild),
+# An toàn bất đồng bộ (Async/Context), và quy chuẩn Clean Architecture / State Management.
+
+analyzer:
+  # Cấu hình kiểm tra kiểu dữ liệu nghiêm ngặt (Strict type safety)
+  language:
+    strict-casts: true         # Bắt buộc ép kiểu rõ ràng, không ngầm định ép từ dynamic
+    strict-inference: true     # Bắt buộc type inference chặt chẽ, không tự gán dynamic khi thiếu type
+    strict-raw-types: true     # Bắt buộc khai báo generic type rõ ràng (Ví dụ: List<String> thay vì List)
+
+  # Bỏ qua các file sinh tự động (Generated files)
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.mocks.dart"
+    - "build/**"
+    - ".dart_tool/**"
+
+  # Tùy chỉnh mức độ cảnh báo lỗi
+  errors:
+    missing_required_param: error            # Thiếu tham số bắt buộc => Báo lỗi đỏ (Error)
+    missing_return: error                    # Hàm có kiểu trả về nhưng quên return => Báo lỗi đỏ
+    todo: info                               # Đánh dấu TODO ở mức thông tin (Info)
+    invalid_annotation_target: ignore        # Bỏ qua warning khi dùng Freezed kết hợp JsonKey
+    discarded_futures: ignore                # Hỗ trợ Mocktail khi dùng closure trong when() và verify()
+
+linter:
+  rules:
+    # --------------------------------------------------------------------------
+    # 1. HIỆU NĂNG & TỐI ƯU HÓA RENDER (PERFORMANCE & WIDGET REBUILD)
+    # --------------------------------------------------------------------------
+    # Ép sử dụng từ khóa const để Flutter gom nhóm và tái sử dụng Widget, tránh rebuild lặp lại
+    prefer_const_constructors: true
+    # Ép dùng const constructor trong class bất biến (@immutable / State / Event trong Bloc)
+    prefer_const_constructors_in_immutables: true
+    # Khuyến khích khai báo biến hằng số với const khi giá trị không thay đổi
+    prefer_const_declarations: true
+    # Khuyến khích dùng const cho List, Set, Map literals nếu các phần tử bên trong là hằng số
+    prefer_const_literals_to_create_immutables: true
+    # Tránh bọc Container() vô nghĩa khi không có margin, padding, color, decoration
+    avoid_unnecessary_containers: true
+    # Dùng SizedBox thay vì Container khi chỉ cần khoảng trắng (width/height) để tiết kiệm tài nguyên
+    sized_box_for_whitespace: true
+    # Dùng SizedBox.shrink() hoặc SizedBox.expand() thay cho SizedBox(width: 0, height: 0)
+    sized_box_shrink_expand: true
+    # Dùng ColoredBox thay vì Container(color: ...) khi chỉ cần tô màu nền (tối ưu render layer)
+    use_colored_box: true
+    # Dùng DecoratedBox thay vì Container(decoration: ...) khi chỉ cần trang trí
+    use_decorated_box: true
+
+    # --------------------------------------------------------------------------
+    # 2. AN TOÀN BẤT ĐỒNG BỘ & TRÁNH MEMORY LEAK (ASYNC & LIFECYCLE SAFETY)
+    # --------------------------------------------------------------------------
+    # Bắt buộc kiểm tra if (!context.mounted) trước khi dùng BuildContext sau các lệnh async/await
+    # Ngăn ngừa crash màn hình khi gọi Navigator, SnackBar, Dialog sau khi widget đã bị dispose
+    use_build_context_synchronously: true
+    # Bắt buộc cancel các StreamSubscription trong hàm dispose() để tránh rò rỉ bộ nhớ
+    cancel_subscriptions: true
+    # Bắt buộc close các StreamController/Sink (trong Bloc, Subject, RxDart) khi không còn sử dụng
+    close_sinks: true
+    # Cảnh báo khi gọi hàm Future mà quên await (tránh chạy ngầm không kiểm soát kết quả hoặc lỗi)
+    unawaited_futures: true
+    # Tránh gọi hàm trả về Future bên trong callback đồng bộ không chờ đợi
+    discarded_futures: true
+
+    # --------------------------------------------------------------------------
+    # 3. QUY CHUẨN STATE MANAGEMENT & BẤT BIẾN (STATE MANAGEMENT & IMMUTABILITY)
+    # --------------------------------------------------------------------------
+    # Bắt buộc khai báo final cho biến cục bộ (Local variable) nếu không gán lại giá trị
+    # Giúp State / Event / Data DTO luôn giữ tính bất biến (Immutable State)
+    prefer_final_locals: true
+    # Bắt buộc khai báo final cho thuộc tính class (Fields) nếu không thay đổi
+    prefer_final_fields: true
+    # Khai báo biến vòng lặp for-in là final: for (final item in list)
+    prefer_final_in_for_each: true
+    # Cảnh báo khi truyền kiểu dynamic tùy tiện không an toàn (tránh lỗi Runtime NoSuchMethodError)
+    avoid_dynamic_calls: true
+    # Cấm dùng lệnh print() trực tiếp trong code production, bắt buộc dùng AppLogger / debugPrint
+    avoid_print: true
+    # Bắt buộc khai báo kiểu trả về cho tất cả các hàm (không để ngầm định dynamic)
+    always_declare_return_types: true
+    # Bắt buộc chú thích kiểu dữ liệu cho Public API / Method để code tường minh
+    type_annotate_public_apis: true
+    # Sử dụng cú pháp rút gọn super.key, super(param) trong Flutter 3+
+    use_super_parameters: true
+
+    # --------------------------------------------------------------------------
+    # 4. CHỐNG LỖI LOGIC & CLEAN CODE (ERROR PREVENTION & CODE HYGIENE)
+    # --------------------------------------------------------------------------
+    # Cấm viết nhánh else rỗng không có nội dung
+    avoid_empty_else: true
+    # Cấm khai báo tham số trùng tên với generic type của class
+    avoid_shadowing_type_parameters: true
+    # Sử dụng isEmpty thay vì length == 0 để tối ưu thời gian duyệt phần tử
+    prefer_is_empty: true
+    # Sử dụng isNotEmpty thay vì !isEmpty hoặc length > 0
+    prefer_is_not_empty: true
+    # Dùng iterable.whereType<T>() thay vì .where((e) => e is T).cast<T>()
+    prefer_iterable_whereType: true
+    # Dùng toán tử null-aware (?., ??, ??=) thay vì kiểm tra if (x != null) dài dòng
+    prefer_null_aware_operators: true
+    # Tự động sắp xếp import theo thứ tự chuẩn (dart -> package -> relative imports)
+    directives_ordering: true
+    # Không dùng từ khóa this không cần thiết khi không bị trùng tên biến
+    unnecessary_this: true
+    # Không dùng từ khóa late nếu biến có thể khởi tạo trực tiếp hoặc là nullable
+    unnecessary_late: true
+    # Không khai báo nullable (?.) dư thừa cho biến final đã gán giá trị không null
+    unnecessary_nullable_for_final_variable_declarations: true
+    # Bắt buộc kiểm tra kiểu dữ liệu an toàn khi override toán tử equals (==)
+    test_types_in_equals: true
+    # Cấm ném ngoại lệ throw bên trong khối finally
+    throw_in_finally: true
+    # Kiểm tra tính hợp lệ của Regular Expression ngay từ lúc phân tích cú pháp
+    valid_regexps: true
+    # Tránh sử dụng hàm void mà lại có return giá trị
+    avoid_returning_null_for_void: true
+    # Không dùng dấu gạch dưới (_) ở đầu tên biến cục bộ (Local variable)
+    no_leading_underscores_for_local_identifiers: true

@@ -1,0 +1,36 @@
+{
+  "app_name": "Base Project",
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "retry": "Retry",
+    "close": "Close",
+    "save": "Save",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "no_data": "No data found",
+    "error_occurred": "An error occurred, please try again"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot Password?",
+    "login_success": "Login successful!",
+    "email_hint": "Enter your email",
+    "password_hint": "Enter your password",
+    "email_invalid": "Invalid email address",
+    "password_invalid": "Password must be at least 6 characters"
+  },
+  "home": {
+    "title": "Base Architecture Showcase",
+    "subtitle": "Modular BLoC Clean Architecture Ready",
+    "widgets_demo": "Shared Widgets Kit",
+    "theme_switch": "Theme Mode",
+    "language_switch": "Language",
+    "network_test": "Test Network API",
+    "notification_test": "Test Local Notification"
+  }
+}

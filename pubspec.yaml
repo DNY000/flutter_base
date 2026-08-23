@@ -1,0 +1,96 @@
+name: base_project
+description: "A production-ready enterprise Flutter base project using BLoC and Clean Architecture."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_bloc: ^9.0.0
+  bloc: ^9.0.0
+  equatable: ^2.0.7
+
+  # Dependency Injection
+  get_it: ^8.0.3
+
+  # Routing
+  go_router: ^14.8.1
+
+  # Network & API
+  dio: ^5.8.0+1
+  pretty_dio_logger: ^1.4.0
+  connectivity_plus: ^6.1.3
+
+  # Storage & Cache
+  flutter_secure_storage: ^9.2.4
+  shared_preferences: ^2.5.2
+  hive_ce: ^2.0.0
+  hive_ce_flutter: ^2.0.0
+
+  # UI, Responsive & Design System
+  flutter_screenutil: ^5.9.3
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.0.17
+  shimmer: ^3.0.0
+  cupertino_icons: ^1.0.8
+  easy_refresh: ^3.4.0
+  super_tooltip: ^2.0.7
+  auto_size_text: ^3.0.0
+  flutter_slidable: ^3.1.2
+  pin_code_fields: ^8.0.1
+  flutter_staggered_grid_view: ^0.7.0
+  percent_indicator: ^4.2.3
+  gap: ^3.0.1
+
+  # Localization & Internationalization
+  easy_localization: ^3.0.7
+  intl: ^0.19.0
+
+  # Functional Programming & Utilities
+  dartz: ^0.10.1
+
+  # Local Notification
+  flutter_local_notifications: ^18.0.1
+
+  # Firebase Suite: Core, Analytics, Crashlytics & Remote Config
+  firebase_core: ^3.12.0
+  firebase_analytics: ^11.4.3
+  firebase_crashlytics: ^4.3.3
+  firebase_remote_config: ^5.3.3
+
+  # Deep Links & App Store Review
+  app_links: ^6.3.2
+  in_app_review: ^2.0.9
+
+  # Native & Device Capabilities
+  permission_handler: ^11.3.1
+  image_picker: ^1.1.2
+  device_info_plus: ^11.1.0
+  package_info_plus: ^8.1.0
+  local_auth: ^2.3.0
+  url_launcher: ^6.3.1
+  path_provider: ^2.1.5
+  share_plus: ^10.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  bloc_test: ^10.0.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/translations/
+    - assets/icons/
+    - assets/images/

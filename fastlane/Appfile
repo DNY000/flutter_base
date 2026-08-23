@@ -1,0 +1,6 @@
+# Fastlane Appfile Configuration
+app_identifier("com.example.baseproject") # Bundle ID cho iOS
+package_name("com.example.base_project") # Package Name cho Android
+apple_id(ENV["APPLE_ID"] || "dev@example.com") # Apple ID Developer
+itc_team_id(ENV["ITC_TEAM_ID"] || "123456789") # App Store Connect Team ID
+team_id(ENV["TEAM_ID"] || "ABCDE12345") # Apple Developer Portal Team ID

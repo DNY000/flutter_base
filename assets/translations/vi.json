@@ -1,0 +1,36 @@
+{
+  "app_name": "Base Project",
+  "common": {
+    "ok": "Đồng ý",
+    "cancel": "Hủy bỏ",
+    "confirm": "Xác nhận",
+    "retry": "Thử lại",
+    "close": "Đóng",
+    "save": "Lưu lại",
+    "delete": "Xóa",
+    "loading": "Đang tải dữ liệu...",
+    "no_data": "Không có dữ liệu",
+    "error_occurred": "Có lỗi xảy ra, vui lòng thử lại"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "forgot_password": "Quên mật khẩu?",
+    "login_success": "Đăng nhập thành công!",
+    "email_hint": "Nhập địa chỉ email của bạn",
+    "password_hint": "Nhập mật khẩu của bạn",
+    "email_invalid": "Địa chỉ email không hợp lệ",
+    "password_invalid": "Mật khẩu phải có ít nhất 6 ký tự"
+  },
+  "home": {
+    "title": "Mẫu Dự Án Chuẩn Base",
+    "subtitle": "Kiến trúc Module BLoC Clean Architecture",
+    "widgets_demo": "Bộ Widget Dùng Chung",
+    "theme_switch": "Giao diện",
+    "language_switch": "Ngôn ngữ",
+    "network_test": "Kiểm tra API Server",
+    "notification_test": "Kiểm tra Thông báo"
+  }
+}
