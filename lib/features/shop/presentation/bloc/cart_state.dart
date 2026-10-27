@@ -14,7 +14,8 @@ class CartState extends Equatable {
 
   int get totalItemCount => items.fold(0, (sum, item) => sum + item.quantity);
 
-  double get subtotalVND => items.fold(0.0, (sum, item) => sum + item.totalPriceInVND);
+  double get subtotalVND =>
+      items.fold(0.0, (sum, item) => sum + item.totalPriceInVND);
 
   double get shippingFeeVND => items.isEmpty ? 0.0 : 30000.0;
 

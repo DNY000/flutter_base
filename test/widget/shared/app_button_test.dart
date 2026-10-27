@@ -11,7 +11,8 @@ import '../../helpers/test_helper.dart';
 
 void main() {
   group('AppButton Widget Test', () {
-    testWidgets('hiển thị đúng text và kích hoạt sự kiện onTap khi bấm', (tester) async {
+    testWidgets('hiển thị đúng text và kích hoạt sự kiện onTap khi bấm',
+        (tester) async {
       bool wasPressed = false;
 
       await tester.pumpApp(
@@ -31,7 +32,8 @@ void main() {
       expect(wasPressed, isTrue);
     });
 
-    testWidgets('hiển thị spinner và không trigger tap khi isLoading = true', (tester) async {
+    testWidgets('hiển thị spinner và không trigger tap khi isLoading = true',
+        (tester) async {
       bool wasPressed = false;
 
       await tester.pumpApp(
@@ -53,7 +55,8 @@ void main() {
       expect(wasPressed, isFalse);
     });
 
-    testWidgets('không kích hoạt sự kiện khi isDisabled = true', (tester) async {
+    testWidgets('không kích hoạt sự kiện khi isDisabled = true',
+        (tester) async {
       bool wasPressed = false;
 
       await tester.pumpApp(

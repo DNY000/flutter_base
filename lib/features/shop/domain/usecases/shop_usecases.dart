@@ -32,7 +32,8 @@ class GetProductDetailUseCase {
   final ProductRepository _repository;
   GetProductDetailUseCase(this._repository);
 
-  Future<Either<Failure, ProductEntity>> call(int id, {bool forceRefresh = false}) {
+  Future<Either<Failure, ProductEntity>> call(int id,
+      {bool forceRefresh = false}) {
     return _repository.getProductDetail(id, forceRefresh: forceRefresh);
   }
 }
@@ -41,7 +42,8 @@ class SearchProductsUseCase {
   final ProductRepository _repository;
   SearchProductsUseCase(this._repository);
 
-  Future<Either<Failure, List<ProductEntity>>> call(String query, {bool forceRefresh = false}) {
+  Future<Either<Failure, List<ProductEntity>>> call(String query,
+      {bool forceRefresh = false}) {
     return _repository.searchProducts(query, forceRefresh: forceRefresh);
   }
 }

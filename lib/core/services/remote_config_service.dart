@@ -34,9 +34,8 @@ class RemoteConfigServiceImpl implements IRemoteConfigService {
       await _instance.setConfigSettings(
         RemoteConfigSettings(
           fetchTimeout: const Duration(seconds: 10),
-          minimumFetchInterval: isDebug
-              ? Duration.zero
-              : const Duration(hours: 1),
+          minimumFetchInterval:
+              isDebug ? Duration.zero : const Duration(hours: 1),
         ),
       );
 
@@ -50,7 +49,8 @@ class RemoteConfigServiceImpl implements IRemoteConfigService {
       _instance.onConfigUpdated.listen((event) async {
         await _instance.activate();
         AppConfig.updateFromFirebase(_instance);
-        AppLogger.info('⚙️ [REMOTE CONFIG] Tự động cập nhật AppConfig từ xa cho keys: ${event.updatedKeys}');
+        AppLogger.info(
+            '⚙️ [REMOTE CONFIG] Tự động cập nhật AppConfig từ xa cho keys: ${event.updatedKeys}');
       });
     } catch (e) {
       AppLogger.error('⚙️ [REMOTE CONFIG] Lỗi khởi tạo Remote Config: $e');
@@ -62,7 +62,8 @@ class RemoteConfigServiceImpl implements IRemoteConfigService {
     try {
       final updated = await _instance.fetchAndActivate();
       AppConfig.updateFromFirebase(_instance);
-      AppLogger.info('⚙️ [REMOTE CONFIG] Đã cập nhật data Firebase vào AppConfig.instance.');
+      AppLogger.info(
+          '⚙️ [REMOTE CONFIG] Đã cập nhật data Firebase vào AppConfig.instance.');
       return updated;
     } catch (e) {
       AppLogger.error('⚙️ [REMOTE CONFIG] Lỗi fetchAndActivate: $e');

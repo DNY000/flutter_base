@@ -48,7 +48,8 @@ class AnalyticsServiceImpl implements IAnalyticsService {
   Future<void> logEvent(String name, {Map<String, Object>? parameters}) async {
     if (!isEnabled) return;
     try {
-      AppLogger.info('📊 [FIREBASE ANALYTICS] Event: "$name" | Params: $parameters');
+      AppLogger.info(
+          '📊 [FIREBASE ANALYTICS] Event: "$name" | Params: $parameters');
       await _instance.logEvent(
         name: name,
         parameters: parameters,
@@ -87,7 +88,8 @@ class AnalyticsServiceImpl implements IAnalyticsService {
   Future<void> setUserProperty(String name, String? value) async {
     if (!isEnabled) return;
     try {
-      AppLogger.info('🏷️ [FIREBASE ANALYTICS] Set UserProperty: "$name" = "$value"');
+      AppLogger.info(
+          '🏷️ [FIREBASE ANALYTICS] Set UserProperty: "$name" = "$value"');
       await _instance.setUserProperty(
         name: name,
         value: value,
@@ -101,7 +103,8 @@ class AnalyticsServiceImpl implements IAnalyticsService {
   Future<void> logLogin({String? loginMethod}) async {
     if (!isEnabled) return;
     try {
-      AppLogger.info('🔑 [FIREBASE ANALYTICS] Ghi nhận Đăng nhập (Method: $loginMethod)');
+      AppLogger.info(
+          '🔑 [FIREBASE ANALYTICS] Ghi nhận Đăng nhập (Method: $loginMethod)');
       await _instance.logLogin(loginMethod: loginMethod ?? 'email_password');
     } catch (e) {
       AppLogger.error('📊 [FIREBASE ANALYTICS] Lỗi logLogin: $e');
@@ -112,7 +115,8 @@ class AnalyticsServiceImpl implements IAnalyticsService {
   Future<void> logSignUp({String? signUpMethod}) async {
     if (!isEnabled) return;
     try {
-      AppLogger.info('✨ [FIREBASE ANALYTICS] Ghi nhận Đăng ký tài khoản (Method: $signUpMethod)');
+      AppLogger.info(
+          '✨ [FIREBASE ANALYTICS] Ghi nhận Đăng ký tài khoản (Method: $signUpMethod)');
       await _instance.logSignUp(signUpMethod: signUpMethod ?? 'email_password');
     } catch (e) {
       AppLogger.error('📊 [FIREBASE ANALYTICS] Lỗi logSignUp: $e');
@@ -128,7 +132,8 @@ class AnalyticsServiceImpl implements IAnalyticsService {
   }) async {
     if (!isEnabled) return;
     try {
-      AppLogger.info('💰 [FIREBASE ANALYTICS] Ghi nhận Mua hàng: $value $currency');
+      AppLogger.info(
+          '💰 [FIREBASE ANALYTICS] Ghi nhận Mua hàng: $value $currency');
       await _instance.logPurchase(
         currency: currency,
         value: value,

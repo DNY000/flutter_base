@@ -63,8 +63,7 @@ class AppSegmentedControl extends StatelessWidget {
                       ? (activeColor ??
                           (isDark ? AppColors.surfaceDark : Colors.white))
                       : Colors.transparent,
-                  borderRadius:
-                      BorderRadius.circular(AppDimensions.radius24.r),
+                  borderRadius: BorderRadius.circular(AppDimensions.radius24.r),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(

@@ -4,7 +4,6 @@
  * ==============================================================================
  */
 
-import 'package:base_project/core/network/network_info.dart';
 import 'package:base_project/core/storage/base_cache_policy.dart';
 import 'package:base_project/core/storage/hive_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -64,7 +63,8 @@ void main() {
       );
     });
 
-    test('khi mất mạng (Offline), tự động lấy dữ liệu từ Hive cache fallback', () async {
+    test('khi mất mạng (Offline), tự động lấy dữ liệu từ Hive cache fallback',
+        () async {
       // Giả lập mất mạng
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
       when(() => mockHiveStorage.get(

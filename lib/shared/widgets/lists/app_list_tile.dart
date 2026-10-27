@@ -32,7 +32,8 @@ class AppListTile extends StatelessWidget {
     this.leading,
     required this.title,
     this.subtitle,
-    this.trailing = const Icon(Icons.chevron_right, color: AppColors.textSecondaryLight),
+    this.trailing =
+        const Icon(Icons.chevron_right, color: AppColors.textSecondaryLight),
     this.onTap,
     this.backgroundColor,
     this.contentPadding,
@@ -43,8 +44,12 @@ class AppListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final tile = ListTile(
       leading: leading,
-      title: Text(title, style: AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-      subtitle: subtitle != null ? Text(subtitle!, style: AppTypography.caption) : null,
+      title: Text(title,
+          style:
+              AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
+      subtitle: subtitle != null
+          ? Text(subtitle!, style: AppTypography.caption)
+          : null,
       trailing: trailing,
       onTap: onTap,
       tileColor: backgroundColor,

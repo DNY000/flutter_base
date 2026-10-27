@@ -56,11 +56,8 @@ class AppDropdownField<T> extends StatelessWidget {
   });
 
   DropdownItem<T>? get _selectedItem {
-    try {
-      return items.firstWhere((item) => item.value == value);
-    } catch (_) {
-      return null;
-    }
+    final matches = items.where((item) => item.value == value);
+    return matches.isNotEmpty ? matches.first : null;
   }
 
   void _showPicker(BuildContext context) {
@@ -135,12 +132,9 @@ class AppDropdownField<T> extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Theme.of(context).inputDecorationTheme.fillColor ??
                       Theme.of(context).cardColor,
-                  borderRadius:
-                      BorderRadius.circular(AppDimensions.radius8.r),
+                  borderRadius: BorderRadius.circular(AppDimensions.radius8.r),
                   border: Border.all(
-                    color: hasError
-                        ? AppColors.error
-                        : AppColors.borderLight,
+                    color: hasError ? AppColors.error : AppColors.borderLight,
                   ),
                 ),
                 child: Row(

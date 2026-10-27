@@ -14,12 +14,15 @@
  */
 
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/utils/logger.dart';
+
 class MediaPickerSheet extends StatelessWidget {
   final bool enableVideo;
-  final Function(File file)? onMediaPicked;
+  final void Function(File file)? onMediaPicked;
   final ImagePicker _picker = ImagePicker();
 
   MediaPickerSheet({
@@ -58,7 +61,9 @@ class MediaPickerSheet extends StatelessWidget {
         final file = File(picked.path);
         onMediaPicked?.call(file);
       }
-    } catch (_) {}
+    } catch (e, st) {
+      AppLogger.e('Lỗi khi chụp/chọn ảnh: $e', error: e, stackTrace: st);
+    }
   }
 
   Future<void> _pickVideo(BuildContext context, ImageSource source) async {
@@ -71,7 +76,9 @@ class MediaPickerSheet extends StatelessWidget {
         final file = File(picked.path);
         onMediaPicked?.call(file);
       }
-    } catch (_) {}
+    } catch (e, st) {
+      AppLogger.e('Lỗi khi quay/chọn video: $e', error: e, stackTrace: st);
+    }
   }
 
   @override
@@ -92,24 +99,28 @@ class MediaPickerSheet extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ListTile(
-              leading: const Icon(Icons.camera_alt_outlined, color: Colors.blueAccent),
+              leading: const Icon(Icons.camera_alt_outlined,
+                  color: Colors.blueAccent),
               title: const Text('Chụp ảnh từ Camera'),
               onTap: () => _pickImage(context, ImageSource.camera),
             ),
             ListTile(
-              leading: const Icon(Icons.photo_library_outlined, color: Colors.green),
+              leading:
+                  const Icon(Icons.photo_library_outlined, color: Colors.green),
               title: const Text('Chọn ảnh từ Thư viện'),
               onTap: () => _pickImage(context, ImageSource.gallery),
             ),
             if (enableVideo) ...[
               const Divider(),
               ListTile(
-                leading: const Icon(Icons.videocam_outlined, color: Colors.deepOrange),
+                leading: const Icon(Icons.videocam_outlined,
+                    color: Colors.deepOrange),
                 title: const Text('Quay video mới'),
                 onTap: () => _pickVideo(context, ImageSource.camera),
               ),
               ListTile(
-                leading: const Icon(Icons.video_library_outlined, color: Colors.purple),
+                leading: const Icon(Icons.video_library_outlined,
+                    color: Colors.purple),
                 title: const Text('Chọn video từ Thư viện'),
                 onTap: () => _pickVideo(context, ImageSource.gallery),
               ),

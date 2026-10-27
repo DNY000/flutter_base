@@ -64,8 +64,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '551366175349',
     projectId: 'ai-project-22c60',
     storageBucket: 'ai-project-22c60.firebasestorage.app',
-    androidClientId: '551366175349-l84c278enud6oaori156j9cjln1o6p9n.apps.googleusercontent.com',
-    iosClientId: '551366175349-77akdcmf3etjpllh87h28ebkn0nc65a3.apps.googleusercontent.com',
+    androidClientId:
+        '551366175349-l84c278enud6oaori156j9cjln1o6p9n.apps.googleusercontent.com',
+    iosClientId:
+        '551366175349-77akdcmf3etjpllh87h28ebkn0nc65a3.apps.googleusercontent.com',
     iosBundleId: 'com.example.baseProject',
   );
 
@@ -75,8 +77,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '551366175349',
     projectId: 'ai-project-22c60',
     storageBucket: 'ai-project-22c60.firebasestorage.app',
-    androidClientId: '551366175349-l84c278enud6oaori156j9cjln1o6p9n.apps.googleusercontent.com',
-    iosClientId: '551366175349-77akdcmf3etjpllh87h28ebkn0nc65a3.apps.googleusercontent.com',
+    androidClientId:
+        '551366175349-l84c278enud6oaori156j9cjln1o6p9n.apps.googleusercontent.com',
+    iosClientId:
+        '551366175349-77akdcmf3etjpllh87h28ebkn0nc65a3.apps.googleusercontent.com',
     iosBundleId: 'com.example.baseProject',
   );
 

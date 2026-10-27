@@ -23,7 +23,13 @@ class ShopState extends Equatable {
   const ShopState({
     this.status = ShopStatus.initial,
     this.products = const [],
-    this.categories = const ['All', 'beauty', 'fragrances', 'furniture', 'groceries'],
+    this.categories = const [
+      'All',
+      'beauty',
+      'fragrances',
+      'furniture',
+      'groceries'
+    ],
     this.selectedCategory = 'All',
     this.searchQuery = '',
     this.selectedProduct,

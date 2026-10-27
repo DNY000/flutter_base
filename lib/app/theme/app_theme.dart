@@ -149,7 +149,8 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radius8.r),
-          borderSide: const BorderSide(color: AppColors.primaryLight, width: 1.5),
+          borderSide:
+              const BorderSide(color: AppColors.primaryLight, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radius8.r),

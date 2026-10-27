@@ -34,7 +34,8 @@ class ProductModel extends ProductEntity {
       description: json['description']?.toString() ?? '',
       category: json['category']?.toString() ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      discountPercentage: (json['discountPercentage'] as num?)?.toDouble() ?? 0.0,
+      discountPercentage:
+          (json['discountPercentage'] as num?)?.toDouble() ?? 0.0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       stock: (json['stock'] as num?)?.toInt() ?? 0,
       brand: json['brand']?.toString() ?? 'Generic',

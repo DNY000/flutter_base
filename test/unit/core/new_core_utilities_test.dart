@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:base_project/core/utils/currency_formatter.dart';
 import 'package:base_project/core/utils/throttler.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,8 @@ void main() {
 
   group('Throttler Test', () {
     test('run chỉ thực thi 1 lần trong khoảng throttleDuration', () {
-      final throttler = Throttler(throttleDuration: const Duration(milliseconds: 200));
+      final throttler =
+          Throttler(throttleDuration: const Duration(milliseconds: 200));
       int callCount = 0;
 
       throttler.run(() => callCount++);

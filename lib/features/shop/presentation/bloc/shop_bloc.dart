@@ -44,7 +44,8 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
 
     // 1. Tải danh mục nếu danh sách chưa có
     if (state.categories.length <= 1) {
-      final categoriesResult = await _getCategoriesUseCase(forceRefresh: event.forceRefresh);
+      final categoriesResult =
+          await _getCategoriesUseCase(forceRefresh: event.forceRefresh);
       categoriesResult.fold(
         (_) => null,
         (cats) => emit(state.copyWith(categories: ['All', ...cats])),
@@ -87,13 +88,16 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     ShopLoadMoreProductsRequested event,
     Emitter<ShopState> emit,
   ) async {
-    if (state.hasReachedMax || state.isLoadingMore || state.status == ShopStatus.loading) {
+    if (state.hasReachedMax ||
+        state.isLoadingMore ||
+        state.status == ShopStatus.loading) {
       return;
     }
 
     emit(state.copyWith(isLoadingMore: true));
 
-    final categoryFilter = state.selectedCategory != 'All' ? state.selectedCategory : null;
+    final categoryFilter =
+        state.selectedCategory != 'All' ? state.selectedCategory : null;
     final skip = state.products.length;
     const limit = 20;
 

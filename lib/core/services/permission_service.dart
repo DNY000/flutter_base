@@ -51,7 +51,8 @@ class PermissionServiceImpl implements IPermissionService {
 
   @override
   Future<bool> requestLocationPermission() async {
-    return _requestSinglePermission(Permission.locationWhenInUse, name: 'Vị trí');
+    return _requestSinglePermission(Permission.locationWhenInUse,
+        name: 'Vị trí');
   }
 
   @override
@@ -84,7 +85,8 @@ class PermissionServiceImpl implements IPermissionService {
 
     if (permissionsToRequest.isEmpty) return {};
 
-    AppLogger.info('🔑 [PERMISSION] Khởi tạo yêu cầu cấp quyền hàng loạt: $permissionsToRequest');
+    AppLogger.info(
+        '🔑 [PERMISSION] Khởi tạo yêu cầu cấp quyền hàng loạt: $permissionsToRequest');
     final statuses = await permissionsToRequest.request();
     return statuses;
   }
@@ -94,7 +96,8 @@ class PermissionServiceImpl implements IPermissionService {
     try {
       final status = await permission.status;
       return status.isGranted;
-    } catch (_) {
+    } catch (e) {
+      AppLogger.w('🔑 [PERMISSION] Lỗi kiểm tra quyền $permission: $e');
       return false;
     }
   }
@@ -104,14 +107,16 @@ class PermissionServiceImpl implements IPermissionService {
     return openAppSettings();
   }
 
-  Future<bool> _requestSinglePermission(Permission permission, {required String name}) async {
+  Future<bool> _requestSinglePermission(Permission permission,
+      {required String name}) async {
     try {
       final status = await permission.request();
       if (status.isGranted) {
         AppLogger.info('🔑 [PERMISSION] Quyền $name đã được cấp.');
         return true;
       } else if (status.isPermanentlyDenied) {
-        AppLogger.warning('🔑 [PERMISSION] Quyền $name bị từ chối vĩnh viễn, người dùng cần mở Cài đặt ứng dụng.');
+        AppLogger.warning(
+            '🔑 [PERMISSION] Quyền $name bị từ chối vĩnh viễn, người dùng cần mở Cài đặt ứng dụng.');
         return false;
       }
       return false;

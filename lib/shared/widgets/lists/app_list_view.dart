@@ -147,8 +147,7 @@ class AppListView<T> extends StatelessWidget {
         physics: physics ?? const AlwaysScrollableScrollPhysics(),
         padding: padding ?? EdgeInsets.all(16.w),
         itemCount: items.length,
-        separatorBuilder: (ctx, idx) =>
-            separator ?? SizedBox(height: 12.h),
+        separatorBuilder: (ctx, idx) => separator ?? SizedBox(height: 12.h),
         itemBuilder: (ctx, idx) => itemBuilder(ctx, items[idx], idx),
       ),
     );

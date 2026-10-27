@@ -16,8 +16,10 @@ void main() {
   });
 
   group('AnalyticsService', () {
-    test('ghi nhận event, screen view và conversion step mà không gây lỗi', () async {
-      await analyticsService.logEvent('test_event', parameters: {'key': 'value'});
+    test('ghi nhận event, screen view và conversion step mà không gây lỗi',
+        () async {
+      await analyticsService
+          .logEvent('test_event', parameters: {'key': 'value'});
       await analyticsService.logScreenView('HomeScreen');
       await analyticsService.setUserId('user_123');
       await analyticsService.setUserProperty('tier', 'vip');

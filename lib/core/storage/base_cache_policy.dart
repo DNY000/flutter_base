@@ -13,6 +13,7 @@
  * ==============================================================================
  */
 
+import '../network/errors/exceptions.dart';
 import '../network/network_info.dart';
 import '../utils/logger.dart';
 import 'hive_storage.dart';
@@ -48,9 +49,14 @@ class BaseCachePolicy {
       if (cached != null) {
         try {
           return fromJson(cached);
-        } catch (_) {}
+        } catch (e) {
+          AppLogger.w('Không thể giải mã dữ liệu cache cho key $cacheKey: $e');
+        }
       }
     }
+
+    Object? remoteError;
+    StackTrace? remoteStackTrace;
 
     // 2. Khi có mạng: Gọi Remote API
     if (isConnected) {
@@ -64,8 +70,11 @@ class BaseCachePolicy {
           boxName: boxName,
         );
         return remoteData;
-      } catch (e) {
-        AppLogger.warning('🌐 [CACHE POLICY] Gọi API từ xa lỗi: $e. Thử đọc Offline Cache...');
+      } catch (e, st) {
+        remoteError = e;
+        remoteStackTrace = st;
+        AppLogger.warning(
+            '🌐 [CACHE POLICY] Gọi API từ xa lỗi: $e. Thử đọc Offline Cache...');
       }
     }
 
@@ -77,11 +86,24 @@ class BaseCachePolicy {
     );
 
     if (offlineCached != null) {
-      AppLogger.info('📶 [OFFLINE MODE] Sử dụng dữ liệu lưu cục bộ từ Hive cho key: "$cacheKey"');
-      return fromJson(offlineCached);
+      try {
+        AppLogger.info(
+            '📶 [OFFLINE MODE] Sử dụng dữ liệu lưu cục bộ từ Hive cho key: "$cacheKey"');
+        return fromJson(offlineCached);
+      } catch (e) {
+        AppLogger.w('Không thể giải mã dữ liệu offline cache: $e');
+      }
     }
 
-    // 4. Nếu không có cả cache lẫn mạng, gọi lại remoteCall để ném Exception chuẩn
-    return await remoteCall();
+    // 4. Nếu không có cache:
+    // - Ném lại lỗi từ remoteCall nếu đã gọi trước đó (tránh duplicate call)
+    // - Nếu mất mạng từ đầu, ném NetworkException ngay lập tức
+    if (remoteError != null) {
+      Error.throwWithStackTrace(
+          remoteError, remoteStackTrace ?? StackTrace.current);
+    }
+
+    throw const NetworkException(
+        'Không có kết nối mạng và không có dữ liệu ngoại tuyến.');
   }
 }

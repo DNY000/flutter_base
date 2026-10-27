@@ -23,20 +23,23 @@ void main() {
   });
 
   group('LoginUseCase', () {
-    test('nên trả về UserEntity khi đăng nhập thành công từ Repository', () async {
+    test('nên trả về UserEntity khi đăng nhập thành công từ Repository',
+        () async {
       // Arrange (Chuẩn bị)
       when(
         () => mockAuthRepository.login(
           email: TestFixtures.testEmail,
           password: TestFixtures.testPassword,
         ),
-      ).thenAnswer((_) async => const Right<Failure, UserEntity>(TestFixtures.testUserEntity));
+      ).thenAnswer((_) async =>
+          const Right<Failure, UserEntity>(TestFixtures.testUserEntity));
 
       // Act (Thực thi)
       final result = await useCase(TestFixtures.testLoginParams);
 
       // Assert (Kiểm chứng)
-      expect(result, const Right<Failure, UserEntity>(TestFixtures.testUserEntity));
+      expect(result,
+          const Right<Failure, UserEntity>(TestFixtures.testUserEntity));
       verify(
         () => mockAuthRepository.login(
           email: TestFixtures.testEmail,
@@ -46,7 +49,8 @@ void main() {
       verifyNoMoreInteractions(mockAuthRepository);
     });
 
-    test('nên trả về ServerFailure khi đăng nhập thất bại từ Repository', () async {
+    test('nên trả về ServerFailure khi đăng nhập thất bại từ Repository',
+        () async {
       // Arrange
       const expectedFailure = ServerFailure(message: 'Tài khoản không tồn tại');
       when(
@@ -54,7 +58,8 @@ void main() {
           email: TestFixtures.testEmail,
           password: TestFixtures.testPassword,
         ),
-      ).thenAnswer((_) async => const Left<Failure, UserEntity>(expectedFailure));
+      ).thenAnswer(
+          (_) async => const Left<Failure, UserEntity>(expectedFailure));
 
       // Act
       final result = await useCase(TestFixtures.testLoginParams);

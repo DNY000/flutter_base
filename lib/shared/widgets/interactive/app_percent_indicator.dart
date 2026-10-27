@@ -58,11 +58,13 @@ class AppCircularPercent extends StatelessWidget {
           animationDuration: 800,
           circularStrokeCap: CircularStrokeCap.round,
           progressColor: progressColor ?? AppColors.primary,
-          backgroundColor: backgroundColor ?? (isDark ? AppColors.borderDark : AppColors.borderLight),
+          backgroundColor: backgroundColor ??
+              (isDark ? AppColors.borderDark : AppColors.borderLight),
           center: center ??
               Text(
                 '${(clampedPercent * 100).toInt()}%',
-                style: AppTypography.heading3.copyWith(fontWeight: FontWeight.bold),
+                style: AppTypography.heading3
+                    .copyWith(fontWeight: FontWeight.bold),
               ),
         ),
         if (label != null) ...[
@@ -108,7 +110,8 @@ class AppLinearPercent extends StatelessWidget {
       animationDuration: 800,
       barRadius: Radius.circular(lineHeight.r / 2),
       progressColor: progressColor ?? AppColors.primary,
-      backgroundColor: backgroundColor ?? (isDark ? AppColors.borderDark : AppColors.borderLight),
+      backgroundColor: backgroundColor ??
+          (isDark ? AppColors.borderDark : AppColors.borderLight),
       leading: leading,
       trailing: trailing,
       center: center,

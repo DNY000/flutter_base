@@ -79,7 +79,7 @@ class AppRouter {
       initialLocation: RouteNames.home,
       debugLogDiagnostics: true,
       refreshListenable: GoRouterRefreshStream(authBloc.stream),
-      
+
       // =========================================================================
       // AUTH GUARD & REDIRECT LOGIC
       // =========================================================================
@@ -94,15 +94,18 @@ class AppRouter {
         );
 
         // 1. Nếu đang trong trạng thái loading hoặc khởi tạo ban đầu, không can thiệp redirect
-        if (authState.status == AuthStatus.initial || authState.status == AuthStatus.loading) {
+        if (authState.status == AuthStatus.initial ||
+            authState.status == AuthStatus.loading) {
           return null;
         }
 
-        final bool isAuthenticated = authState.status == AuthStatus.authenticated;
+        final bool isAuthenticated =
+            authState.status == AuthStatus.authenticated;
 
         // 2. Người dùng CHƯA ĐĂNG NHẬP nhưng truy cập trang yêu cầu đăng nhập (Protected Route)
         if (!isAuthenticated && !isPublicRoute) {
-          AppLogger.w('Unauthenticated access attempt to $currentPath -> Redirect to Login');
+          AppLogger.w(
+              'Unauthenticated access attempt to $currentPath -> Redirect to Login');
           return RouteNames.login;
         }
 
@@ -133,7 +136,7 @@ class AppRouter {
           name: 'home',
           pageBuilder: (context, state) => _buildPageWithSlideTransition(
             state: state,
-            child: const ShopCatalogPage(),
+            child: const HomePage(),
           ),
         ),
         GoRoute(
@@ -169,8 +172,11 @@ class AppRouter {
                   rating: 4.8,
                   stock: 50,
                   brand: 'Store',
-                  thumbnail: 'https://cdn.dummyjson.com/product-images/1/thumbnail.jpg',
-                  images: const ['https://cdn.dummyjson.com/product-images/1/1.jpg'],
+                  thumbnail:
+                      'https://cdn.dummyjson.com/product-images/1/thumbnail.jpg',
+                  images: const [
+                    'https://cdn.dummyjson.com/product-images/1/1.jpg'
+                  ],
                 ),
               ),
             );
@@ -238,7 +244,8 @@ class AppRouter {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;
         const curve = Curves.easeInOut;
-        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        final tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,

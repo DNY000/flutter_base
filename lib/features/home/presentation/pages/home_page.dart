@@ -21,8 +21,7 @@ import '../../../../core/services/notification_service.dart';
 import '../../../../core/storage/local_storage.dart';
 import '../../../../shared/extensions/context_ext.dart';
 import '../../../../shared/widgets/widgets.dart';
-import '../../../auth/presentation/bloc/auth_bloc.dart';
-import '../../../auth/presentation/bloc/auth_event.dart';
+import '../../../auth/auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,7 +30,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   int _counter = 0;
   bool _isLoadingButton = false;
@@ -60,7 +60,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       id: 101,
       title: '🎉 Base Project Notification',
       body: 'Thông báo cục bộ & điều hướng hoạt động hoàn hảo!',
-      payloadData: const {'route': RouteNames.home, 'type': 'HOME', 'id': 'demo_123'},
+      payloadData: const {
+        'route': RouteNames.home,
+        'type': 'HOME',
+        'id': 'demo_123'
+      },
     );
     if (mounted) {
       context.showSnackBar('Đã gửi thông báo thử nghiệm!');
@@ -117,7 +121,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         automaticallyImplyLeading: false,
         actions: [
           AppIconButton(
-            icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.primary),
+            icon: const Icon(Icons.shopping_bag_outlined,
+                color: AppColors.primary),
             tooltip: 'Trải nghiệm E-Commerce Shop',
             onPressed: () => context.push('/shop'),
           ),
@@ -149,7 +154,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           tabs: const [
             Tab(icon: Icon(Icons.touch_app), text: 'Buttons & Text'),
             Tab(icon: Icon(Icons.input), text: 'Inputs & Form'),
-            Tab(icon: Icon(Icons.dashboard_customize), text: 'Interactive & Percent'),
+            Tab(
+                icon: Icon(Icons.dashboard_customize),
+                text: 'Interactive & Percent'),
             Tab(icon: Icon(Icons.view_agenda), text: 'Lists, Sliders & Media'),
           ],
         ),
@@ -191,15 +198,23 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
             child: Row(
               children: [
-                const Icon(Icons.storefront_rounded, color: Colors.white, size: 36),
+                const Icon(Icons.storefront_rounded,
+                    color: Colors.white, size: 36),
                 Gap(12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('🛍️ Module E-Commerce Mall', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                      const Text('🛍️ Module E-Commerce Mall',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16)),
                       Gap(4.h),
-                      const Text('API DummyJSON • Clean Arch • BLoC 9 • Hive Cache', style: TextStyle(color: Colors.white70, fontSize: 11)),
+                      const Text(
+                          'API DummyJSON • Clean Arch • BLoC 9 • Hive Cache',
+                          style:
+                              TextStyle(color: Colors.white70, fontSize: 11)),
                     ],
                   ),
                 ),
@@ -228,7 +243,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppText.h3('Enterprise Flutter UI Kit', color: Colors.white),
+                      const AppText.h3('Enterprise Flutter UI Kit',
+                          color: Colors.white),
                       Gap(4.h),
                       AppText.autoSize(
                         'Hệ thống Widget trực quan phong phú • Clean Architecture',
@@ -248,7 +264,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Gap(8.h),
           const AppText.h1('Heading 1 Title (H1)'),
           const AppText.h2('Heading 2 Subtitle (H2)'),
-          const AppText.bodyMedium('Body Medium chuẩn hóa với Clean Design Tokens.'),
+          const AppText.bodyMedium(
+              'Body Medium chuẩn hóa với Clean Design Tokens.'),
           const AppText.caption('Caption Text nhỏ gọn cho ghi chú phụ.'),
           Gap(6.h),
           const AppText.autoSize(
@@ -263,13 +280,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Gap(12.h),
           AppButton(
             text: 'Primary Button (Clicks: $_counter)',
-            iconPrefix: const Icon(Icons.touch_app, size: 20, color: Colors.white),
+            iconPrefix:
+                const Icon(Icons.touch_app, size: 20, color: Colors.white),
             onPressed: () => setState(() => _counter++),
           ),
           Gap(10.h),
           AppButton.gradient(
             text: 'Gradient Vibrant Button',
-            iconSuffix: const Icon(Icons.arrow_forward, size: 20, color: Colors.white),
+            iconSuffix:
+                const Icon(Icons.arrow_forward, size: 20, color: Colors.white),
             onPressed: () => context.showSnackBar('Clicked Gradient Button!'),
           ),
           Gap(10.h),
@@ -303,7 +322,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               Expanded(
                 child: AppButton.danger(
                   text: 'Danger / Delete',
-                  iconPrefix: const Icon(Icons.delete_outline, size: 18, color: Colors.white),
+                  iconPrefix: const Icon(Icons.delete_outline,
+                      size: 18, color: Colors.white),
                   onPressed: () => context.showSnackBar('Clicked Danger!'),
                 ),
               ),
@@ -363,12 +383,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           AppOtpField(
             length: 6,
             onChanged: (v) => setState(() => _otpValue = v),
-            onCompleted: (code) => context.showSnackBar('Đã nhập đủ mã OTP: $code'),
+            onCompleted: (code) =>
+                context.showSnackBar('Đã nhập đủ mã OTP: $code'),
           ),
           if (_otpValue.isNotEmpty)
-            AppText.caption('Mã đang nhập: $_otpValue', color: AppColors.primary),
+            AppText.caption('Mã đang nhập: $_otpValue',
+                color: AppColors.primary),
           Gap(24.h),
-
           const AppText.h3('2. Standard Form Inputs'),
           Gap(12.h),
           const AppTextField(
@@ -400,7 +421,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             onChanged: (v) => setState(() => _selectedCity = v),
           ),
           Gap(20.h),
-
           const AppText.h3('3. Switch, Checkbox & Radio'),
           Gap(12.h),
           AppSwitch(
@@ -419,8 +439,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           AppRadioGroup<String>(
             selectedValue: _selectedRadio,
             options: const [
-              RadioOption(value: 'A', title: 'Tùy chọn thanh toán qua Thẻ tín dụng'),
-              RadioOption(value: 'B', title: 'Tùy chọn thanh toán khi nhận hàng (COD)'),
+              RadioOption(
+                  value: 'A', title: 'Tùy chọn thanh toán qua Thẻ tín dụng'),
+              RadioOption(
+                  value: 'B', title: 'Tùy chọn thanh toán khi nhận hàng (COD)'),
             ],
             onChanged: (v) => setState(() => _selectedRadio = v),
           ),
@@ -446,7 +468,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 message: 'Chạm nhẹ để xem hướng dẫn!',
                 popupDirection: TooltipDirection.up,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8.r),
@@ -454,9 +477,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.info_outline, color: AppColors.primary, size: 20),
+                      Icon(Icons.info_outline,
+                          color: AppColors.primary, size: 20),
                       SizedBox(width: 6),
-                      Text('Tooltip Hướng Lên', style: TextStyle(color: AppColors.primary)),
+                      Text('Tooltip Hướng Lên',
+                          style: TextStyle(color: AppColors.primary)),
                     ],
                   ),
                 ),
@@ -465,7 +490,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 message: 'Đây là nội dung Tooltip hướng xuống',
                 popupDirection: TooltipDirection.down,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: AppColors.secondary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8.r),
@@ -473,9 +499,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.help_outline, color: AppColors.secondary, size: 20),
+                      Icon(Icons.help_outline,
+                          color: AppColors.secondary, size: 20),
                       SizedBox(width: 6),
-                      Text('Tooltip Hướng Xuống', style: TextStyle(color: AppColors.secondary)),
+                      Text('Tooltip Hướng Xuống',
+                          style: TextStyle(color: AppColors.secondary)),
                     ],
                   ),
                 ),
@@ -483,12 +511,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ],
           ),
           Gap(24.h),
-
           const AppText.h3('2. Percent Indicators (Tiến Độ % Animated)'),
           Gap(12.h),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               AppCircularPercent(
                 percent: 0.75,
                 progressColor: AppColors.primary,
@@ -513,7 +540,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             progressColor: AppColors.primary,
           ),
           Gap(24.h),
-
           const AppText.h3('3. Rating Bar & Accordion'),
           Gap(12.h),
           AppRatingBar(
@@ -528,7 +554,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ),
           Gap(24.h),
-
           const AppText.h3('4. Feedback & Dialogs'),
           Gap(12.h),
           Row(
@@ -543,7 +568,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       message: 'Bạn có chắc chắn muốn thực hiện thao tác này?',
                       isDestructive: true,
                     );
-                    if (confirmed == true && context.mounted) {
+                    if (!mounted) return;
+                    if (confirmed == true) {
                       AppSnackBar.success(context, 'Đã xác nhận thành công!');
                     }
                   },
@@ -581,26 +607,30 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   onPressed: (ctx) => context.showSnackBar('Đã xóa thông báo!'),
                 ),
                 AppSlideAction.edit(
-                  onPressed: (ctx) => context.showSnackBar('Chỉnh sửa thông báo!'),
+                  onPressed: (ctx) =>
+                      context.showSnackBar('Chỉnh sửa thông báo!'),
                 ),
               ],
               child: const AppListTile(
-                leading: Icon(Icons.notifications_active, color: AppColors.primary),
+                leading:
+                    Icon(Icons.notifications_active, color: AppColors.primary),
                 title: 'Đơn hàng #10293 đã được giao',
                 subtitle: 'Vuốt sang trái để mở action Xóa / Sửa 👈',
               ),
             ),
           ),
           Gap(24.h),
-
           const AppText.h3('2. Carousel Slider & Media Picker'),
           Gap(12.h),
           AppCarouselSlider(
             height: 140,
             items: [
-              _buildBannerCard('Khuyến Mãi Siêu Khủng 50%', [const Color(0xFFEC4899), const Color(0xFF8B5CF6)]),
-              _buildBannerCard('Miễn Phí Vận Chuyển Toàn Quốc', [const Color(0xFF3B82F6), const Color(0xFF10B981)]),
-              _buildBannerCard('Thành Viên VIP Ưu Đãi Đặc Biệt', [const Color(0xFFF59E0B), const Color(0xFFEF4444)]),
+              _buildBannerCard('Khuyến Mãi Siêu Khủng 50%',
+                  [const Color(0xFFEC4899), const Color(0xFF8B5CF6)]),
+              _buildBannerCard('Miễn Phí Vận Chuyển Toàn Quốc',
+                  [const Color(0xFF3B82F6), const Color(0xFF10B981)]),
+              _buildBannerCard('Thành Viên VIP Ưu Đãi Đặc Biệt',
+                  [const Color(0xFFF59E0B), const Color(0xFFEF4444)]),
             ],
           ),
           Gap(16.h),
@@ -610,16 +640,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             onPressed: () async {
               final file = await MediaPickerSheet.show(context);
               if (file != null && mounted && context.mounted) {
-                context.showSnackBar('Đã chọn tệp: ${file.path.split('/').last}');
+                context.showSnackBar(
+                    'Đã chọn tệp: ${file.path.split(RegExp(r'[/\\]')).last}');
               }
             },
           ),
           Gap(24.h),
-
           const AppText.h3('3. Cached Network Image & Shimmer'),
           Gap(12.h),
           const AppCachedImage(
-            imageUrl: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80',
+            imageUrl:
+                'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80',
             height: 120,
             width: double.infinity,
           ),
@@ -642,7 +673,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),

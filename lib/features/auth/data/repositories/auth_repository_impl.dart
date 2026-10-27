@@ -43,10 +43,14 @@ class AuthRepositoryImpl implements AuthRepository {
       await _localDataSource.saveUser(result.user);
 
       return Right(result.user);
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(message: e.message));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     } on UnauthorizedException catch (e) {
       return Left(UnauthorizedFailure(message: e.message));
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure(message: e.toString()));
     }

@@ -26,7 +26,16 @@ import '../../../app/theme/app_dimensions.dart';
 import '../../../app/theme/app_typography.dart';
 import '../states/app_loading_indicator.dart';
 
-enum AppButtonVariant { primary, secondary, outline, ghost, danger, tonal, gradient }
+enum AppButtonVariant {
+  primary,
+  secondary,
+  outline,
+  ghost,
+  danger,
+  tonal,
+  gradient
+}
+
 enum AppButtonSize { small, medium, large }
 
 class AppButton extends StatelessWidget {
@@ -203,7 +212,8 @@ class AppButton extends StatelessWidget {
         break;
       case AppButtonSize.large:
         buttonHeight = 56.h;
-        textStyle = AppTypography.button.copyWith(fontSize: 16.sp, fontWeight: FontWeight.bold);
+        textStyle = AppTypography.button
+            .copyWith(fontSize: 16.sp, fontWeight: FontWeight.bold);
         iconPadding = 10.w;
         break;
       case AppButtonSize.medium:
@@ -229,8 +239,10 @@ class AppButton extends StatelessWidget {
         fg = textColor ?? Colors.white;
         break;
       case AppButtonVariant.secondary:
-        bg = backgroundColor ?? (isDark ? AppColors.surfaceDark : const Color(0xFFF1F5F9));
-        fg = textColor ?? (isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B));
+        bg = backgroundColor ??
+            (isDark ? AppColors.surfaceDark : const Color(0xFFF1F5F9));
+        fg = textColor ??
+            (isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B));
         break;
       case AppButtonVariant.outline:
         bg = backgroundColor ?? Colors.transparent;
@@ -255,13 +267,14 @@ class AppButton extends StatelessWidget {
     }
 
     if (effectiveDisabled) {
-      if (variant != AppButtonVariant.ghost && variant != AppButtonVariant.outline) {
+      if (variant != AppButtonVariant.ghost &&
+          variant != AppButtonVariant.outline) {
         bg = bg.withValues(alpha: 0.5);
       }
       fg = fg.withValues(alpha: 0.5);
     }
 
-    Widget content = Center(
+    final Widget content = Center(
       child: isLoading
           ? AppLoadingIndicator(size: (buttonHeight * 0.45).w, color: fg)
           : Row(

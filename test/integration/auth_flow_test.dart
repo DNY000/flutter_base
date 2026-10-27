@@ -67,9 +67,12 @@ void main() {
       'toàn bộ chuỗi xác thực hoạt động trơn tru từ Remote -> Local Storage -> BLoC State',
       setUp: () {
         when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(() => mockSecureStorage.saveAccessToken(any())).thenAnswer((_) async {});
-        when(() => mockSecureStorage.saveRefreshToken(any())).thenAnswer((_) async {});
-        when(() => mockLocalStorage.setObject(any(), any())).thenAnswer((_) async => true);
+        when(() => mockSecureStorage.saveAccessToken(any()))
+            .thenAnswer((_) async {});
+        when(() => mockSecureStorage.saveRefreshToken(any()))
+            .thenAnswer((_) async {});
+        when(() => mockLocalStorage.setObject(any(), any()))
+            .thenAnswer((_) async => true);
       },
       build: () => authBloc,
       act: (bloc) => bloc.add(

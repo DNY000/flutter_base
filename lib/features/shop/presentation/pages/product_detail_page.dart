@@ -49,7 +49,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 alignment: Alignment.center,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.textPrimaryLight),
+                    icon: const Icon(Icons.shopping_bag_outlined,
+                        color: AppColors.textPrimaryLight),
                     onPressed: () => context.push('/shop/cart'),
                   ),
                   if (cartState.totalItemCount > 0)
@@ -62,7 +63,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           color: AppColors.error,
                           shape: BoxShape.circle,
                         ),
-                        constraints: BoxConstraints(minWidth: 18.w, minHeight: 18.w),
+                        constraints:
+                            BoxConstraints(minWidth: 18.w, minHeight: 18.w),
                         child: Text(
                           '${cartState.totalItemCount > 99 ? '99+' : cartState.totalItemCount}',
                           style: TextStyle(
@@ -114,7 +116,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 3.h),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(4.r),
@@ -130,7 +133,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       ),
                       Gap(8.w),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 3.h),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(4.r),
@@ -162,7 +166,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     runSpacing: 4.h,
                     children: [
                       Text(
-                        CurrencyFormatter.formatVND(product.discountedPriceInVND),
+                        CurrencyFormatter.formatVND(
+                            product.discountedPriceInVND),
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 20.sp,
@@ -179,7 +184,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 6.w, vertical: 2.h),
                           decoration: BoxDecoration(
                             color: AppColors.error.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(4.r),
@@ -201,17 +207,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   // Đánh giá & Tồn kho
                   Row(
                     children: [
-                      const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
+                      const Icon(Icons.star_rounded,
+                          color: Colors.amber, size: 18),
                       Gap(4.w),
                       Text(
                         '${product.rating} / 5.0',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12.sp),
                       ),
                       Gap(16.w),
                       Text(
                         'Kho: ${product.stock} sản phẩm',
                         style: TextStyle(
-                          color: product.stock > 0 ? AppColors.success : AppColors.error,
+                          color: product.stock > 0
+                              ? AppColors.success
+                              : AppColors.error,
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
                         ),
@@ -241,7 +251,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Gap(6.h),
                   Text(
                     'Đã bán ${(100 - product.stock.clamp(0, 100))}% số lượng đợt phát hành này',
-                    style: TextStyle(fontSize: 11.sp, color: AppColors.textSecondaryLight),
+                    style: TextStyle(
+                        fontSize: 11.sp, color: AppColors.textSecondaryLight),
                   ),
                 ],
               ),
@@ -260,7 +271,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     initiallyExpanded: true,
                     content: Text(
                       product.description,
-                      style: TextStyle(fontSize: 13.sp, height: 1.5, color: AppColors.textPrimaryLight),
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          height: 1.5,
+                          color: AppColors.textPrimaryLight),
                     ),
                   ),
                   AppAccordion(
@@ -268,11 +282,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('• Đổi mới 1-1 trong vòng 7 ngày nếu lỗi từ nhà sản xuất.', style: TextStyle(fontSize: 12.sp)),
+                        Text(
+                            '• Đổi mới 1-1 trong vòng 7 ngày nếu lỗi từ nhà sản xuất.',
+                            style: TextStyle(fontSize: 12.sp)),
                         Gap(4.h),
-                        Text('• Miễn phí giao hàng cho đơn từ 150.000₫.', style: TextStyle(fontSize: 12.sp)),
+                        Text('• Miễn phí giao hàng cho đơn từ 150.000₫.',
+                            style: TextStyle(fontSize: 12.sp)),
                         Gap(4.h),
-                        Text('• Cam kết 100% hàng chính hãng.', style: TextStyle(fontSize: 12.sp)),
+                        Text('• Cam kết 100% hàng chính hãng.',
+                            style: TextStyle(fontSize: 12.sp)),
                       ],
                     ),
                   ),
@@ -304,7 +322,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       child: Row(
         children: [
           // Bộ chọn số lượng
-          Container(
+          DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.borderLight),
               borderRadius: BorderRadius.circular(AppDimensions.radius12.r),
@@ -319,7 +337,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 Text(
                   '$_selectedQuantity',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                 ),
                 IconButton(
                   icon: const Icon(Icons.add, size: 16),
@@ -334,14 +353,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           Expanded(
             child: AppButton.gradient(
               text: 'Thêm Vào Giỏ Hàng',
-              iconPrefix: const Icon(Icons.add_shopping_cart_rounded, color: Colors.white, size: 18),
+              iconPrefix: const Icon(Icons.add_shopping_cart_rounded,
+                  color: Colors.white, size: 18),
               onPressed: () {
                 context.read<CartBloc>().add(
                       CartItemAdded(product, quantity: _selectedQuantity),
                     );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Đã thêm $_selectedQuantity x "${product.title}" vào giỏ hàng!'),
+                    content: Text(
+                        'Đã thêm $_selectedQuantity x "${product.title}" vào giỏ hàng!'),
                     backgroundColor: AppColors.success,
                     behavior: SnackBarBehavior.floating,
                   ),

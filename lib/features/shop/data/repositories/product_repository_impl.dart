@@ -8,6 +8,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/network/errors/exceptions.dart';
 import '../../../../core/network/errors/failures.dart';
 import '../../../../core/storage/base_cache_policy.dart';
+import '../../../../core/utils/logger.dart';
 import '../../domain/entities/product_entity.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../datasources/shop_remote_data_source.dart';
@@ -43,7 +44,8 @@ class ProductRepositoryImpl implements ProductRepository {
         ),
         toJson: (list) => list.map((e) => e.toJson()).toList(),
         fromJson: (json) => (json as List)
-            .map((e) => ProductModel.fromJson(Map<String, dynamic>.from(e as Map)))
+            .map((e) =>
+                ProductModel.fromJson(Map<String, dynamic>.from(e as Map)))
             .toList(),
       );
       return Right(products);
@@ -69,11 +71,14 @@ class ProductRepositoryImpl implements ProductRepository {
         forceRefresh: forceRefresh,
         remoteCall: () => _remoteDataSource.fetchProductDetail(id),
         toJson: (data) => data.toJson(),
-        fromJson: (json) => ProductModel.fromJson(Map<String, dynamic>.from(json as Map)),
+        fromJson: (json) =>
+            ProductModel.fromJson(Map<String, dynamic>.from(json as Map)),
       );
       return Right(product);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure(message: e.toString()));
     }
@@ -93,12 +98,15 @@ class ProductRepositoryImpl implements ProductRepository {
         remoteCall: () => _remoteDataSource.searchProducts(query),
         toJson: (list) => list.map((e) => e.toJson()).toList(),
         fromJson: (json) => (json as List)
-            .map((e) => ProductModel.fromJson(Map<String, dynamic>.from(e as Map)))
+            .map((e) =>
+                ProductModel.fromJson(Map<String, dynamic>.from(e as Map)))
             .toList(),
       );
       return Right(products);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure(message: e.toString()));
     }
@@ -120,6 +128,8 @@ class ProductRepositoryImpl implements ProductRepository {
       );
       return Right(categories);
     } catch (e) {
+      AppLogger.w(
+          'Failed to fetch categories, falling back to default categories: $e');
       return const Right(['beauty', 'fragrances', 'furniture', 'groceries']);
     }
   }

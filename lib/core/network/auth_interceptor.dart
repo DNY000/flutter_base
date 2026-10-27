@@ -1,8 +1,11 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
-import 'api_endpoints.dart';
+
+import '../config/app_config.dart';
 import '../storage/secure_storage.dart';
 import '../utils/logger.dart';
+import 'api_endpoints.dart';
 
 class AuthInterceptor extends QueuedInterceptor {
   final ISecureStorage _secureStorage;
@@ -39,15 +42,25 @@ class AuthInterceptor extends QueuedInterceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    if (err.response?.statusCode == 401) {
-      AppLogger.w('401 Unauthorized detected. Attempting to refresh token...');
+    final path = err.requestOptions.path;
+    final isPublicPath = path.contains(ApiEndpoints.login) ||
+        path.contains(ApiEndpoints.register) ||
+        path.contains(ApiEndpoints.refreshToken);
+
+    // Không kích hoạt refresh token nếu request bị 401 là public route (vd: nhập sai mật khẩu khi login)
+    if (err.response?.statusCode == 401 && !isPublicPath) {
+      AppLogger.w(
+          '401 Unauthorized detected on protected route ($path). Attempting to refresh token...');
       final refreshToken = await _secureStorage.getRefreshToken();
 
       if (refreshToken != null && refreshToken.isNotEmpty) {
         try {
           final refreshDio = Dio(
             BaseOptions(
-              baseUrl: ApiEndpoints.baseUrl,
+              baseUrl: AppConfig.instance.apiBaseUrl,
+              connectTimeout: ApiEndpoints.connectTimeout,
+              receiveTimeout: ApiEndpoints.receiveTimeout,
+              sendTimeout: ApiEndpoints.sendTimeout,
               headers: {'Content-Type': 'application/json'},
             ),
           );
@@ -59,11 +72,13 @@ class AuthInterceptor extends QueuedInterceptor {
 
           if (response.statusCode == 200 && response.data != null) {
             final resMap = response.data!;
-            final dataMap = resMap['data'] as Map<String, dynamic>?;
-            final newAccessToken =
-                dataMap?['accessToken']?.toString() ?? resMap['accessToken']?.toString();
-            final newRefreshToken =
-                dataMap?['refreshToken']?.toString() ?? resMap['refreshToken']?.toString();
+            final dataMap = resMap['data'] is Map
+                ? Map<String, dynamic>.from(resMap['data'] as Map)
+                : null;
+            final newAccessToken = dataMap?['accessToken']?.toString() ??
+                resMap['accessToken']?.toString();
+            final newRefreshToken = dataMap?['refreshToken']?.toString() ??
+                resMap['refreshToken']?.toString();
 
             if (newAccessToken != null) {
               await _secureStorage.saveAccessToken(newAccessToken);

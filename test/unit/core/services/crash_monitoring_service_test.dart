@@ -18,7 +18,8 @@ void main() {
 
   group('CrashMonitoringService', () {
     test('ghi nhận lỗi non-fatal và breadcrumbs chính xác', () async {
-      await crashService.logBreadcrumb('Bấm nút thanh toán', category: 'USER_FLOW');
+      await crashService.logBreadcrumb('Bấm nút thanh toán',
+          category: 'USER_FLOW');
       await crashService.setUserIdentifier('user_999');
       await crashService.setCustomKey('app_flavor', 'staging');
 
@@ -30,7 +31,8 @@ void main() {
       );
 
       expect(crashService.recentBreadcrumbs.length, 1);
-      expect(crashService.recentBreadcrumbs.first.contains('USER_FLOW'), isTrue);
+      expect(
+          crashService.recentBreadcrumbs.first.contains('USER_FLOW'), isTrue);
     });
   });
 }

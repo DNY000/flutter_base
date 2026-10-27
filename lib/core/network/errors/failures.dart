@@ -27,7 +27,8 @@ abstract class Failure {
   int get hashCode => message.hashCode ^ statusCode.hashCode;
 
   @override
-  String toString() => '$runtimeType(message: $message, statusCode: $statusCode)';
+  String toString() =>
+      '$runtimeType(message: $message, statusCode: $statusCode)';
 }
 
 class ServerFailure extends Failure {

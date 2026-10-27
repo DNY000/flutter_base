@@ -53,7 +53,8 @@ class AppTooltip extends StatefulWidget {
     this.showDropBoxFilter = false,
     this.onDismiss,
     this.enableTapToShow = true,
-  }) : assert(message != null || content != null, 'Phải cung cấp message hoặc content cho AppTooltip');
+  }) : assert(message != null || content != null,
+            'Phải cung cấp message hoặc content cho AppTooltip');
 
   @override
   State<AppTooltip> createState() => _AppTooltipState();
@@ -85,7 +86,8 @@ class _AppTooltipState extends State<AppTooltip> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bg = widget.backgroundColor ?? (isDark ? AppColors.surfaceDark : const Color(0xFF1E293B));
+    final bg = widget.backgroundColor ??
+        (isDark ? AppColors.surfaceDark : const Color(0xFF1E293B));
     final txtColor = widget.textColor ?? Colors.white;
 
     final tooltipContent = widget.content ??

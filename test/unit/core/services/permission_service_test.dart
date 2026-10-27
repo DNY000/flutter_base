@@ -20,7 +20,8 @@ void main() {
       expect(permissionService, isA<IPermissionService>());
     });
 
-    test('requestBasicPermissions trả về map rỗng khi không chọn quyền nào', () async {
+    test('requestBasicPermissions trả về map rỗng khi không chọn quyền nào',
+        () async {
       final res = await permissionService.requestBasicPermissions(
         includeNotification: false,
         includeLocation: false,

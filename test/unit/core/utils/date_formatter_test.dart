@@ -26,10 +26,19 @@ void main() {
       expect(result, '14:30');
     });
 
-    test('trả về chuỗi rỗng khi dateTime là null', () {
-      expect(DateFormatter.toDisplayDate(null), '');
-      expect(DateFormatter.toDisplayDateTime(null), '');
-      expect(DateFormatter.toTimeOnly(null), '');
+    test('toIsoDateString trả về ISO 8601 string hoặc chuỗi rỗng khi null', () {
+      expect(DateFormatter.toIsoDateString(testDateTime),
+          testDateTime.toIso8601String());
+      expect(DateFormatter.toIsoDateString(null), '');
+    });
+
+    test('parseIsoString parse chuỗi ISO an toàn, trả về null khi không hợp lệ',
+        () {
+      expect(
+          DateFormatter.parseIsoString('2026-08-22T14:30:00.000'), isNotNull);
+      expect(DateFormatter.parseIsoString(''), isNull);
+      expect(DateFormatter.parseIsoString(null), isNull);
+      expect(DateFormatter.parseIsoString('invalid-date-string'), isNull);
     });
   });
 }

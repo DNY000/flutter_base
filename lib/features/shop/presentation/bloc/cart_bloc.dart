@@ -39,13 +39,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   void _onItemRemoved(CartItemRemoved event, Emitter<CartState> emit) {
-    final updatedList = state.items.where(
-      (item) => item.product.id != event.productId,
-    ).toList();
+    final updatedList = state.items
+        .where(
+          (item) => item.product.id != event.productId,
+        )
+        .toList();
     emit(state.copyWith(items: updatedList));
   }
 
-  void _onQuantityUpdated(CartItemQuantityUpdated event, Emitter<CartState> emit) {
+  void _onQuantityUpdated(
+      CartItemQuantityUpdated event, Emitter<CartState> emit) {
     final updatedList = <CartItemEntity>[];
     for (final item in state.items) {
       if (item.product.id == event.productId) {

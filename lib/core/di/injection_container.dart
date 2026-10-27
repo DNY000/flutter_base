@@ -40,7 +40,8 @@ Future<void> initDependencies() async {
   // 1. External Packages
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  sl.registerLazySingleton<FlutterSecureStorage>(() => const FlutterSecureStorage());
+  sl.registerLazySingleton<FlutterSecureStorage>(
+      () => const FlutterSecureStorage());
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
 
   // 2. Core Infrastructure (Storage, Network, Services, Security, Monitoring)

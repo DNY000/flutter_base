@@ -28,6 +28,7 @@ import 'core/services/notification_service.dart';
 import 'core/services/remote_config_service.dart';
 import 'core/storage/hive_storage.dart';
 import 'core/utils/logger.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,10 +38,13 @@ void main() async {
 
   // 2. Khởi tạo Firebase Core
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     AppLogger.info('🔥 [FIREBASE] Khởi tạo Firebase Core thành công.');
   } catch (e) {
-    AppLogger.error('🔥 [FIREBASE] Lỗi khởi tạo Firebase Core (chưa có google-services.json hoặc mock): $e');
+    AppLogger.error(
+        '🔥 [FIREBASE] Lỗi khởi tạo Firebase Core (chưa có google-services.json hoặc mock): $e');
   }
 
   // 3. Khởi tạo đa ngôn ngữ

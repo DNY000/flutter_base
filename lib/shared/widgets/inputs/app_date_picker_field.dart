@@ -84,12 +84,9 @@ class AppDatePickerField extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Theme.of(context).inputDecorationTheme.fillColor ??
                       Theme.of(context).cardColor,
-                  borderRadius:
-                      BorderRadius.circular(AppDimensions.radius8.r),
+                  borderRadius: BorderRadius.circular(AppDimensions.radius8.r),
                   border: Border.all(
-                    color: hasError
-                        ? AppColors.error
-                        : AppColors.borderLight,
+                    color: hasError ? AppColors.error : AppColors.borderLight,
                   ),
                 ),
                 child: Row(

@@ -57,7 +57,8 @@ class AppDialog {
                 child: AppButton(
                   text: confirmText,
                   height: 40.h,
-                  backgroundColor: isDestructive ? AppColors.error : AppColors.primary,
+                  backgroundColor:
+                      isDestructive ? AppColors.error : AppColors.primary,
                   onPressed: () => Navigator.of(ctx).pop(true),
                 ),
               ),
@@ -69,7 +70,8 @@ class AppDialog {
   }
 
   /// Hiển thị Dialog Loading chặn tương tác
-  static void showLoading(BuildContext context, {String message = 'Đang xử lý...'}) {
+  static void showLoading(BuildContext context,
+      {String message = 'Đang xử lý...'}) {
     unawaited(
       showDialog<void>(
         context: context,

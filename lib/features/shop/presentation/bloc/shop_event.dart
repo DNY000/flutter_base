@@ -56,4 +56,6 @@ class ShopProductDetailRequested extends ShopEvent {
   List<Object?> get props => [productId];
 }
 
-class ShopLoadMoreProductsRequested extends ShopEvent {}
+class ShopLoadMoreProductsRequested extends ShopEvent {
+  const ShopLoadMoreProductsRequested();
+}

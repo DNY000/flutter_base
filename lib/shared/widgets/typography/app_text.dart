@@ -17,7 +17,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../../../app/theme/app_typography.dart';
 
-enum AppTextVariant { h1, h2, h3, bodyLarge, bodyMedium, bodySmall, button, caption }
+enum AppTextVariant {
+  h1,
+  h2,
+  h3,
+  bodyLarge,
+  bodyMedium,
+  bodySmall,
+  button,
+  caption
+}
 
 class AppText extends StatelessWidget {
   final String text;

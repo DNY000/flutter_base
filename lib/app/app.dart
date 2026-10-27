@@ -23,6 +23,7 @@
  */
 
 import 'dart:async';
+
 import 'package:base_project/features/shop/presentation/bloc/cart_bloc.dart';
 import 'package:base_project/features/shop/presentation/bloc/shop_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,11 +32,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import 'constants/app_constants.dart';
 import '../core/di/injection_container.dart';
 import '../core/services/notification_service.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/auth/presentation/bloc/auth_event.dart';
+import 'constants/app_constants.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    _router.dispose();
     unawaited(_authBloc.close());
     super.dispose();
   }

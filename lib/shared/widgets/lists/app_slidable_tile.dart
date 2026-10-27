@@ -65,7 +65,7 @@ class AppSlideAction {
 class AppSlidableTile extends StatelessWidget {
   final Widget child;
   final List<AppSlideAction>? startActions; // Vuốt từ trái sang phải
-  final List<AppSlideAction>? endActions;   // Vuốt từ phải sang trái
+  final List<AppSlideAction>? endActions; // Vuốt từ phải sang trái
   final bool isEnabled;
 
   const AppSlidableTile({
@@ -94,7 +94,8 @@ class AppSlidableTile extends StatelessWidget {
                   foregroundColor: action.foregroundColor ?? Colors.white,
                   icon: action.icon,
                   label: action.label,
-                  borderRadius: BorderRadius.horizontal(left: Radius.circular(8.r)),
+                  borderRadius:
+                      BorderRadius.horizontal(left: Radius.circular(8.r)),
                 );
               }).toList(),
             )
@@ -109,7 +110,8 @@ class AppSlidableTile extends StatelessWidget {
                   foregroundColor: action.foregroundColor ?? Colors.white,
                   icon: action.icon,
                   label: action.label,
-                  borderRadius: BorderRadius.horizontal(right: Radius.circular(8.r)),
+                  borderRadius:
+                      BorderRadius.horizontal(right: Radius.circular(8.r)),
                 );
               }).toList(),
             )

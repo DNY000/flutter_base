@@ -43,7 +43,8 @@ class AppConfig {
     this.minAppVersion = '1.0.0',
     this.isForceUpdateRequired = false,
     this.isMaintenanceMode = false,
-    this.maintenanceMessage = 'Hệ thống đang được nâng cấp định kỳ. Xin vui lòng quay lại sau.',
+    this.maintenanceMessage =
+        'Hệ thống đang được nâng cấp định kỳ. Xin vui lòng quay lại sau.',
     this.supportHotline = '1900 6868',
     this.enablePromoBanner = true,
     this.apiTimeoutSeconds = 30,
@@ -127,7 +128,9 @@ class AppConfig {
     _instance = _instance!.copyWith(
       environment: remoteEnv ?? _instance!.environment,
       appName: remoteAppName.isNotEmpty ? remoteAppName : _instance!.appName,
-      apiBaseUrl: remoteApiBaseUrl.isNotEmpty ? remoteApiBaseUrl : _instance!.apiBaseUrl,
+      apiBaseUrl: remoteApiBaseUrl.isNotEmpty
+          ? remoteApiBaseUrl
+          : _instance!.apiBaseUrl,
       minAppVersion: rc.getString('min_app_version').isNotEmpty
           ? rc.getString('min_app_version')
           : _instance!.minAppVersion,

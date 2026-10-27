@@ -25,10 +25,6 @@ class DateFormatter {
 
   static DateTime? parseIsoString(String? dateStr) {
     if (dateStr == null || dateStr.isEmpty) return null;
-    try {
-      return DateTime.parse(dateStr);
-    } catch (_) {
-      return null;
-    }
+    return DateTime.tryParse(dateStr);
   }
 }

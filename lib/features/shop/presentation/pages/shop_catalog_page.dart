@@ -35,7 +35,8 @@ class ShopCatalogPage extends StatefulWidget {
 class _ShopCatalogPageState extends State<ShopCatalogPage> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final Debouncer _debouncer = Debouncer(delay: const Duration(milliseconds: 400));
+  final Debouncer _debouncer =
+      Debouncer(delay: const Duration(milliseconds: 400));
 
   @override
   void initState() {
@@ -51,7 +52,7 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 250) {
-      context.read<ShopBloc>().add(ShopLoadMoreProductsRequested());
+      context.read<ShopBloc>().add(const ShopLoadMoreProductsRequested());
     }
   }
 
@@ -96,19 +97,24 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                     child: AppTextField(
                       controller: _searchController,
                       hintText: 'Tìm kiếm hàng triệu sản phẩm...',
-                      prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textSecondaryLight),
+                      prefixIcon: const Icon(Icons.search_rounded,
+                          color: AppColors.textSecondaryLight),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.clear_rounded, size: 18),
                               onPressed: () {
                                 _searchController.clear();
-                                context.read<ShopBloc>().add(const ShopSearchQueryChanged(''));
+                                context
+                                    .read<ShopBloc>()
+                                    .add(const ShopSearchQueryChanged(''));
                               },
                             )
                           : null,
                       onChanged: (val) {
                         _debouncer.run(() {
-                          context.read<ShopBloc>().add(ShopSearchQueryChanged(val));
+                          context
+                              .read<ShopBloc>()
+                              .add(ShopSearchQueryChanged(val));
                         });
                       },
                     ),
@@ -127,17 +133,26 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                           _buildPromoBanner(
                             title: '⚡ SIÊU SALE HÈ 50%',
                             subtitle: 'Hàng ngàn deal công nghệ & thời trang',
-                            gradient: const [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                            gradient: const [
+                              Color(0xFF6366F1),
+                              Color(0xFF8B5CF6)
+                            ],
                           ),
                           _buildPromoBanner(
                             title: '🎁 FREESHIP TOÀN QUỐC',
                             subtitle: 'Đơn hàng từ 150K nhận mã giảm 30K',
-                            gradient: const [Color(0xFFEC4899), Color(0xFFF43F5E)],
+                            gradient: const [
+                              Color(0xFFEC4899),
+                              Color(0xFFF43F5E)
+                            ],
                           ),
                           _buildPromoBanner(
                             title: '🌟 XẢ KHO GIÁ SỐC',
                             subtitle: 'Mỹ phẩm & nước hoa chính hãng',
-                            gradient: const [Color(0xFF0EA5E9), Color(0xFF10B981)],
+                            gradient: const [
+                              Color(0xFF0EA5E9),
+                              Color(0xFF10B981)
+                            ],
                           ),
                         ],
                       ),
@@ -197,7 +212,9 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                       child: Center(
                         child: Text(
                           '🎉 Bạn đã xem hết ${state.products.length} sản phẩm!',
-                          style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 12.sp),
+                          style: TextStyle(
+                              color: AppColors.textSecondaryLight,
+                              fontSize: 12.sp),
                         ),
                       ),
                     ),
@@ -228,7 +245,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
               alignment: Alignment.center,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.shopping_bag_outlined, size: 26, color: AppColors.textPrimaryLight),
+                  icon: const Icon(Icons.shopping_bag_outlined,
+                      size: 26, color: AppColors.textPrimaryLight),
                   onPressed: () => context.push('/shop/cart'),
                 ),
                 if (cartState.totalItemCount > 0)
@@ -241,7 +259,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                         color: AppColors.error,
                         shape: BoxShape.circle,
                       ),
-                      constraints: BoxConstraints(minWidth: 18.w, minHeight: 18.w),
+                      constraints:
+                          BoxConstraints(minWidth: 18.w, minHeight: 18.w),
                       child: Text(
                         '${cartState.totalItemCount > 99 ? '99+' : cartState.totalItemCount}',
                         style: TextStyle(
@@ -292,7 +311,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
           Gap(4.h),
           Text(
             subtitle,
-            style: AppTypography.bodySmall.copyWith(color: Colors.white.withValues(alpha: 0.9)),
+            style: AppTypography.bodySmall
+                .copyWith(color: Colors.white.withValues(alpha: 0.9)),
           ),
           Gap(10.h),
           Container(
@@ -303,7 +323,10 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
             ),
             child: const Text(
               'Mua Ngay →',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11),
             ),
           ),
         ],
@@ -332,7 +355,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
               padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
               decoration: BoxDecoration(
                 color: isSelected ? AppColors.primary : Colors.white,
-                borderRadius: BorderRadius.circular(AppDimensions.radiusCircle.r),
+                borderRadius:
+                    BorderRadius.circular(AppDimensions.radiusCircle.r),
                 border: Border.all(
                   color: isSelected ? AppColors.primary : AppColors.borderLight,
                 ),
@@ -348,9 +372,12 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
               ),
               child: Center(
                 child: Text(
-                  cat == 'All' ? 'Tất cả' : cat[0].toUpperCase() + cat.substring(1),
+                  cat == 'All'
+                      ? 'Tất cả'
+                      : cat[0].toUpperCase() + cat.substring(1),
                   style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.textPrimaryLight,
+                    color:
+                        isSelected ? Colors.white : AppColors.textPrimaryLight,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                     fontSize: 12.sp,
                   ),
@@ -375,7 +402,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
             childAspectRatio: 0.65,
           ),
           delegate: SliverChildBuilderDelegate(
-            (context, index) => const AppShimmer.rectangular(height: 240, borderRadius: 12),
+            (context, index) =>
+                const AppShimmer.rectangular(height: 240, borderRadius: 12),
             childCount: 6,
           ),
         ),
@@ -388,7 +416,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
           child: Column(
             children: [
-              const Icon(Icons.wifi_off_rounded, size: 64, color: AppColors.textSecondaryLight),
+              const Icon(Icons.wifi_off_rounded,
+                  size: 64, color: AppColors.textSecondaryLight),
               Gap(12.h),
               Text(
                 state.errorMessage ?? 'Không thể tải danh sách sản phẩm.',
@@ -398,7 +427,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
               Gap(16.h),
               AppButton(
                 text: 'Thử lại',
-                iconPrefix: const Icon(Icons.refresh_rounded, color: Colors.white, size: 18),
+                iconPrefix: const Icon(Icons.refresh_rounded,
+                    color: Colors.white, size: 18),
                 onPressed: () {
                   context.read<ShopBloc>().add(
                         ShopFetchProductsRequested(
@@ -421,9 +451,11 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
           child: Center(
             child: Column(
               children: [
-                const Icon(Icons.search_off_rounded, size: 56, color: AppColors.textSecondaryLight),
+                const Icon(Icons.search_off_rounded,
+                    size: 56, color: AppColors.textSecondaryLight),
                 Gap(8.h),
-                Text('Không tìm thấy sản phẩm phù hợp', style: AppTypography.bodyMedium),
+                Text('Không tìm thấy sản phẩm phù hợp',
+                    style: AppTypography.bodyMedium),
               ],
             ),
           ),
@@ -456,7 +488,7 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
       onTap: () {
         context.push('/shop/product/${product.id}', extra: product);
       },
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(AppDimensions.radius12.r),
@@ -479,8 +511,9 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                 fit: StackFit.expand,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(AppDimensions.radius12.r)),
-                    child: Container(
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(AppDimensions.radius12.r)),
+                    child: ColoredBox(
                       color: Colors.grey.shade50,
                       child: AppCachedImage(
                         imageUrl: product.thumbnail,
@@ -493,7 +526,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                       top: 6.h,
                       left: 6.w,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.w, vertical: 2.h),
                         decoration: BoxDecoration(
                           color: AppColors.error,
                           borderRadius: BorderRadius.circular(4.r),
@@ -555,11 +589,13 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.star_rounded, color: Colors.amber, size: 13),
+                            const Icon(Icons.star_rounded,
+                                color: Colors.amber, size: 13),
                             Gap(2.w),
                             Text(
                               product.rating.toStringAsFixed(1),
-                              style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 10.sp, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -573,7 +609,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    CurrencyFormatter.formatVND(product.discountedPriceInVND),
+                                    CurrencyFormatter.formatVND(
+                                        product.discountedPriceInVND),
                                     style: TextStyle(
                                       color: AppColors.primary,
                                       fontWeight: FontWeight.bold,
@@ -584,7 +621,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                                   ),
                                   if (product.discountPercentage > 0)
                                     Text(
-                                      CurrencyFormatter.formatVND(product.priceInVND),
+                                      CurrencyFormatter.formatVND(
+                                          product.priceInVND),
                                       style: TextStyle(
                                         color: AppColors.textSecondaryLight,
                                         fontSize: 9.sp,
@@ -598,10 +636,13 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                context.read<CartBloc>().add(CartItemAdded(product));
+                                context
+                                    .read<CartBloc>()
+                                    .add(CartItemAdded(product));
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Đã thêm "${product.title}" vào giỏ!'),
+                                    content: Text(
+                                        'Đã thêm "${product.title}" vào giỏ!'),
                                     duration: const Duration(milliseconds: 900),
                                     behavior: SnackBarBehavior.floating,
                                   ),
@@ -611,7 +652,8 @@ class _ShopCatalogPageState extends State<ShopCatalogPage> {
                               child: Container(
                                 padding: EdgeInsets.all(5.w),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.1),
+                                  color:
+                                      AppColors.primary.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(6.r),
                                 ),
                                 child: const Icon(

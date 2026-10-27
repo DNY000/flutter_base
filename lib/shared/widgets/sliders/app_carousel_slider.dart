@@ -47,7 +47,8 @@ class _AppCarouselSliderState extends State<AppCarouselSlider> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(viewportFraction: widget.viewportFraction ?? 1.0);
+    _pageController =
+        PageController(viewportFraction: widget.viewportFraction ?? 1.0);
     if (widget.autoPlay && widget.items.length > 1) {
       _startAutoPlay();
     }

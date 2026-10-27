@@ -51,13 +51,17 @@ class AppLogger {
   }
 
   // Aliases for clear naming
-  static void debug(String message, {String tag = 'DEBUG'}) => d(message, tag: tag);
-  static void info(String message, {String tag = 'INFO'}) => i(message, tag: tag);
-  static void warning(String message, {String tag = 'WARN'}) => w(message, tag: tag);
+  static void debug(String message, {String tag = 'DEBUG'}) =>
+      d(message, tag: tag);
+  static void info(String message, {String tag = 'INFO'}) =>
+      i(message, tag: tag);
+  static void warning(String message, {String tag = 'WARN'}) =>
+      w(message, tag: tag);
   static void error(
     String message, {
     String tag = 'ERROR',
     dynamic error,
     StackTrace? stackTrace,
-  }) => e(message, tag: tag, error: error, stackTrace: stackTrace);
+  }) =>
+      e(message, tag: tag, error: error, stackTrace: stackTrace);
 }

@@ -47,7 +47,8 @@ void main() {
     rating: 4.5,
     stock: 15,
     brand: 'Glam',
-    thumbnail: 'https://cdn.dummyjson.com/products/images/beauty/thumbnail2.png',
+    thumbnail:
+        'https://cdn.dummyjson.com/products/images/beauty/thumbnail2.png',
     images: ['https://cdn.dummyjson.com/products/images/beauty/2.png'],
   );
 
@@ -83,7 +84,8 @@ void main() {
     blocTest<ShopBloc, ShopState>(
       'Phát ra [loading, success] khi ShopFetchProductsRequested thành công',
       build: () {
-        when(() => mockGetCategoriesUseCase(forceRefresh: any(named: 'forceRefresh')))
+        when(() => mockGetCategoriesUseCase(
+                forceRefresh: any(named: 'forceRefresh')))
             .thenAnswer((_) async => Right(tCategories));
         when(() => mockGetProductsUseCase(
               limit: any(named: 'limit'),
@@ -100,7 +102,13 @@ void main() {
           status: ShopStatus.success,
           products: tProducts,
           hasReachedMax: true, // Vì 1 < 20
-          categories: const ['All', 'beauty', 'fragrances', 'furniture', 'groceries'],
+          categories: const [
+            'All',
+            'beauty',
+            'fragrances',
+            'furniture',
+            'groceries'
+          ],
         ),
       ],
     );
@@ -108,14 +116,17 @@ void main() {
     blocTest<ShopBloc, ShopState>(
       'Phát ra [loading, failure] khi ShopFetchProductsRequested thất bại',
       build: () {
-        when(() => mockGetCategoriesUseCase(forceRefresh: any(named: 'forceRefresh')))
+        when(() => mockGetCategoriesUseCase(
+                forceRefresh: any(named: 'forceRefresh')))
             .thenAnswer((_) async => const Right([]));
         when(() => mockGetProductsUseCase(
-              limit: any(named: 'limit'),
-              skip: any(named: 'skip'),
-              category: any(named: 'category'),
-              forceRefresh: any(named: 'forceRefresh'),
-            )).thenAnswer((_) async => const Left(ServerFailure(message: 'Lỗi tải sản phẩm')));
+                  limit: any(named: 'limit'),
+                  skip: any(named: 'skip'),
+                  category: any(named: 'category'),
+                  forceRefresh: any(named: 'forceRefresh'),
+                ))
+            .thenAnswer((_) async =>
+                const Left(ServerFailure(message: 'Lỗi tải sản phẩm')));
         return shopBloc;
       },
       act: (bloc) => bloc.add(const ShopFetchProductsRequested()),
@@ -138,13 +149,13 @@ void main() {
             )).thenAnswer((_) async => const Right([tProduct2]));
         return shopBloc;
       },
-      seed: () => ShopState(
+      seed: () => const ShopState(
         status: ShopStatus.success,
         products: [tProduct],
         hasReachedMax: false,
       ),
-      act: (bloc) => bloc.add(ShopLoadMoreProductsRequested()),
-      expect: () => [
+      act: (bloc) => bloc.add(const ShopLoadMoreProductsRequested()),
+      expect: () => const [
         ShopState(
           status: ShopStatus.success,
           products: [tProduct],

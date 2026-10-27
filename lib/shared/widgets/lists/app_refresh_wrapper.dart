@@ -58,7 +58,8 @@ class AppRefreshWrapper extends StatelessWidget {
             processedText: 'Làm mới thành công',
             noMoreText: 'Không có thêm dữ liệu',
             failedText: 'Làm mới thất bại',
-            textStyle: TextStyle(fontSize: 13, color: AppColors.textSecondaryLight),
+            textStyle:
+                TextStyle(fontSize: 13, color: AppColors.textSecondaryLight),
           ),
       footer: footer ??
           const ClassicFooter(
@@ -69,7 +70,8 @@ class AppRefreshWrapper extends StatelessWidget {
             processedText: 'Tải thành công',
             noMoreText: '— Đã hiển thị toàn bộ dữ liệu —',
             failedText: 'Tải thất bại, hãy thử lại',
-            textStyle: TextStyle(fontSize: 13, color: AppColors.textSecondaryLight),
+            textStyle:
+                TextStyle(fontSize: 13, color: AppColors.textSecondaryLight),
           ),
       child: child,
     );

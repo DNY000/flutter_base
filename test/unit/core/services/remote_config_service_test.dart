@@ -18,7 +18,12 @@ void main() {
   });
 
   group('AppConfig & RemoteConfigService', () {
-    test('AppConfig chứa đầy đủ các thuộc tính môi trường và remote config', () {
+    test('RemoteConfigServiceImpl khởi tạo thành công', () {
+      expect(remoteConfigService, isNotNull);
+    });
+
+    test('AppConfig chứa đầy đủ các thuộc tính môi trường và remote config',
+        () {
       final config = AppConfig.instance;
 
       expect(config.environment, Environment.dev);

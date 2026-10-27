@@ -47,7 +47,8 @@ class NotificationServiceImpl implements INotificationService {
       FlutterLocalNotificationsPlugin();
 
   /// Kênh thông báo Android chuẩn mực (High Importance cho Heads-up banner)
-  static const AndroidNotificationChannel _defaultChannel = AndroidNotificationChannel(
+  static const AndroidNotificationChannel _defaultChannel =
+      AndroidNotificationChannel(
     'high_importance_channel', // id
     'Thông báo quan trọng', // title
     description: 'Kênh nhận các thông báo hệ thống và giao dịch quan trọng.',
@@ -62,7 +63,8 @@ class NotificationServiceImpl implements INotificationService {
   @override
   Future<void> initialize() async {
     // 1. Cấu hình cài đặt cho Android và iOS
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false, // Sẽ yêu cầu thông qua requestPermission()
       requestBadgePermission: false,
@@ -75,8 +77,9 @@ class NotificationServiceImpl implements INotificationService {
     );
 
     // 2. Khởi tạo Android Notification Channel
-    final androidImplementation = _localNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    final androidImplementation =
+        _localNotificationsPlugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
     if (androidImplementation != null) {
       await androidImplementation.createNotificationChannel(_defaultChannel);
     }
@@ -85,15 +88,18 @@ class NotificationServiceImpl implements INotificationService {
     await _localNotificationsPlugin.initialize(
       initSettings,
       onDidReceiveNotificationResponse: _onNotificationResponse,
-      onDidReceiveBackgroundNotificationResponse: notificationBackgroundTapHandler,
+      onDidReceiveBackgroundNotificationResponse:
+          notificationBackgroundTapHandler,
     );
 
     // 4. Xử lý trạng thái KILLED APP / TERMINATED (Cold Start)
-    final launchDetails = await _localNotificationsPlugin.getNotificationAppLaunchDetails();
+    final launchDetails =
+        await _localNotificationsPlugin.getNotificationAppLaunchDetails();
     if (launchDetails != null && launchDetails.didNotificationLaunchApp) {
       final payload = launchDetails.notificationResponse?.payload;
       if (payload != null && payload.isNotEmpty) {
-        AppLogger.i('App launched from KILLED state with payload: $payload', tag: 'NOTIFICATION');
+        AppLogger.i('App launched from KILLED state with payload: $payload',
+            tag: 'NOTIFICATION');
         _pendingPayload = payload;
       }
     }
@@ -104,13 +110,16 @@ class NotificationServiceImpl implements INotificationService {
   @override
   Future<bool> requestPermission() async {
     // Android 13+ (API 33+) yêu cầu cấp quyền POST_NOTIFICATIONS
-    final androidImplementation = _localNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-    final androidGranted = await androidImplementation?.requestNotificationsPermission();
+    final androidImplementation =
+        _localNotificationsPlugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    final androidGranted =
+        await androidImplementation?.requestNotificationsPermission();
 
     // iOS Request Permissions
-    final iosImplementation = _localNotificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+    final iosImplementation =
+        _localNotificationsPlugin.resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>();
     final iosGranted = await iosImplementation?.requestPermissions(
       alert: true,
       badge: true,
@@ -164,7 +173,8 @@ class NotificationServiceImpl implements INotificationService {
   /// Callback khi người dùng BẤM vào thông báo khi app đang chạy (Foreground hoặc Background)
   void _onNotificationResponse(NotificationResponse response) {
     final payload = response.payload;
-    AppLogger.i('User tapped notification: payload=$payload', tag: 'NOTIFICATION');
+    AppLogger.i('User tapped notification: payload=$payload',
+        tag: 'NOTIFICATION');
     _handlePayloadNavigation(payload);
   }
 
@@ -172,7 +182,8 @@ class NotificationServiceImpl implements INotificationService {
   @override
   void handlePendingNotificationAfterLaunch() {
     if (_pendingPayload != null) {
-      AppLogger.i('Handling pending cold-start notification navigation...', tag: 'NOTIFICATION');
+      AppLogger.i('Handling pending cold-start notification navigation...',
+          tag: 'NOTIFICATION');
       final payload = _pendingPayload;
       _pendingPayload = null;
       // Đặt độ trễ nhỏ để đảm bảo Router Navigator Key đã gắn kết vào Widget Tree
@@ -189,7 +200,13 @@ class NotificationServiceImpl implements INotificationService {
     if (payload == null || payload.isEmpty) return;
 
     try {
-      final Map<String, dynamic> data = jsonDecode(payload) as Map<String, dynamic>;
+      final decoded = jsonDecode(payload);
+      if (decoded is! Map) {
+        AppLogger.w('Notification payload is not a JSON object: $payload',
+            tag: 'NOTIFICATION');
+        return;
+      }
+      final Map<String, dynamic> data = Map<String, dynamic>.from(decoded);
       final String? targetRoute = data['route'] as String?;
       final String? targetType = data['type'] as String?;
       final dynamic targetId = data['id'];
@@ -215,7 +232,8 @@ class NotificationServiceImpl implements INotificationService {
         AppRouter.router.go(RouteNames.home);
       }
     } catch (e) {
-      AppLogger.e('Failed to parse notification payload: $e', tag: 'NOTIFICATION');
+      AppLogger.e('Failed to parse notification payload: $e',
+          tag: 'NOTIFICATION');
     }
   }
 

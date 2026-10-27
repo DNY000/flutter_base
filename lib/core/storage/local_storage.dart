@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/logger.dart';
 
 abstract class ILocalStorage {
   Future<bool> setString(String key, String value);
@@ -38,7 +39,8 @@ class LocalStorageImpl implements ILocalStorage {
   LocalStorageImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   @override
-  Future<bool> setString(String key, String value) => _prefs.setString(key, value);
+  Future<bool> setString(String key, String value) =>
+      _prefs.setString(key, value);
 
   @override
   String? getString(String key) => _prefs.getString(key);
@@ -65,8 +67,13 @@ class LocalStorageImpl implements ILocalStorage {
     final str = _prefs.getString(key);
     if (str == null || str.isEmpty) return null;
     try {
-      return jsonDecode(str) as Map<String, dynamic>;
-    } catch (_) {
+      final decoded = jsonDecode(str);
+      if (decoded is Map) {
+        return Map<String, dynamic>.from(decoded);
+      }
+      return null;
+    } catch (e) {
+      AppLogger.w('Lỗi giải mã object từ SharedPreferences với key "$key": $e');
       return null;
     }
   }

@@ -1,14 +1,14 @@
 /// ==============================================================================
 /// [RouteNames]
-/// 
+///
 /// 🇻🇳 TIẾNG VIỆT:
 /// - Chức năng: Lưu trữ danh sách tất cả các đường dẫn điều hướng (Route paths) trong ứng dụng.
-/// - Cách sử dụng: Sử dụng `RouteNames.<route_name>` thay vì truyền chuỗi cứng ("hardcoded string") 
+/// - Cách sử dụng: Sử dụng `RouteNames.<route_name>` thay vì truyền chuỗi cứng ("hardcoded string")
 ///   khi gọi `context.go()`, `context.push()`, hoặc khai báo trong `AppRouter`.
-/// 
+///
 /// 🇬🇧 ENGLISH:
 /// - Purpose: Centralizes all route path constants across the entire application.
-/// - Usage: Use `RouteNames.<route_name>` instead of hardcoded strings with `context.go()` 
+/// - Usage: Use `RouteNames.<route_name>` instead of hardcoded strings with `context.go()`
 ///   or `context.push()`.
 /// ==============================================================================
 class RouteNames {

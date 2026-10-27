@@ -59,25 +59,26 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-  void _handleCheckout(BuildContext context, CartState state) {
+  Future<void> _handleCheckout(CartState state) async {
     setState(() => _isCheckingOut = true);
-    Future.delayed(const Duration(milliseconds: 1200), () async {
-      if (!mounted) return;
-      setState(() => _isCheckingOut = false);
+    await Future<void>.delayed(const Duration(milliseconds: 1200));
+    if (!mounted) return;
+    setState(() => _isCheckingOut = false);
 
-      final shouldClear = await AppDialog.confirm(
-        context,
-        title: '🎉 Đặt Hàng Thành Công!',
-        message: 'Cảm ơn bạn đã mua sắm! Đơn hàng đang được đóng gói và chuẩn bị giao đi.',
-        confirmText: 'Về Trang Mua Sắm',
-        cancelText: 'Đóng',
-      );
+    final shouldClear = await AppDialog.confirm(
+      context,
+      title: '🎉 Đặt Hàng Thành Công!',
+      message:
+          'Cảm ơn bạn đã mua sắm! Đơn hàng đang được đóng gói và chuẩn bị giao đi.',
+      confirmText: 'Về Trang Mua Sắm',
+      cancelText: 'Đóng',
+    );
 
-      if (shouldClear == true && mounted) {
-        context.read<CartBloc>().add(CartCleared());
-        context.pop();
-      }
-    });
+    if (!mounted) return;
+    if (shouldClear == true) {
+      context.read<CartBloc>().add(CartCleared());
+      context.pop();
+    }
   }
 
   @override
@@ -93,12 +94,14 @@ class _CartPageState extends State<CartPage> {
             builder: (context, state) {
               if (state.items.isEmpty) return const SizedBox.shrink();
               return IconButton(
-                icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+                icon: const Icon(Icons.delete_outline_rounded,
+                    color: AppColors.error),
                 onPressed: () async {
                   final confirmed = await AppDialog.confirm(
                     context,
                     title: 'Xóa Toàn Bộ Giỏ Hàng?',
-                    message: 'Bạn có chắc chắn muốn dọn sạch tất cả sản phẩm trong giỏ?',
+                    message:
+                        'Bạn có chắc chắn muốn dọn sạch tất cả sản phẩm trong giỏ?',
                     confirmText: 'Xác nhận xóa',
                     cancelText: 'Hủy',
                     isDestructive: true,
@@ -122,19 +125,23 @@ class _CartPageState extends State<CartPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.remove_shopping_cart_outlined, size: 80, color: Colors.grey.shade400),
+                    Icon(Icons.remove_shopping_cart_outlined,
+                        size: 80, color: Colors.grey.shade400),
                     Gap(16.h),
-                    Text('Giỏ hàng của bạn đang trống', style: AppTypography.heading2),
+                    Text('Giỏ hàng của bạn đang trống',
+                        style: AppTypography.heading2),
                     Gap(8.h),
                     Text(
                       'Hãy khám phá hàng ngàn deal hấp dẫn và thêm vào giỏ ngay nhé!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 12.sp),
+                      style: TextStyle(
+                          color: AppColors.textSecondaryLight, fontSize: 12.sp),
                     ),
                     Gap(24.h),
                     AppButton.gradient(
                       text: 'Tiếp Tục Mua Sắm',
-                      iconPrefix: const Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 18),
+                      iconPrefix: const Icon(Icons.shopping_bag_outlined,
+                          color: Colors.white, size: 18),
                       onPressed: () => context.pop(),
                     ),
                   ],
@@ -143,7 +150,8 @@ class _CartPageState extends State<CartPage> {
             );
           }
 
-          final finalTotal = (state.totalVND - _discountCoupon).clamp(0.0, double.infinity);
+          final finalTotal =
+              (state.totalVND - _discountCoupon).clamp(0.0, double.infinity);
 
           return Column(
             children: [
@@ -151,7 +159,8 @@ class _CartPageState extends State<CartPage> {
               Expanded(
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   itemCount: state.items.length,
                   separatorBuilder: (_, __) => Gap(10.h),
                   itemBuilder: (context, index) {
@@ -163,10 +172,13 @@ class _CartPageState extends State<CartPage> {
                       endActions: [
                         AppSlideAction.delete(
                           onPressed: (ctx) {
-                            context.read<CartBloc>().add(CartItemRemoved(product.id));
+                            context
+                                .read<CartBloc>()
+                                .add(CartItemRemoved(product.id));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Đã xóa "${product.title}" khỏi giỏ hàng.'),
+                                content: Text(
+                                    'Đã xóa "${product.title}" khỏi giỏ hàng.'),
                                 duration: const Duration(seconds: 1),
                               ),
                             );
@@ -177,7 +189,8 @@ class _CartPageState extends State<CartPage> {
                         padding: EdgeInsets.all(10.w),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(AppDimensions.radius12.r),
+                          borderRadius:
+                              BorderRadius.circular(AppDimensions.radius12.r),
                           border: Border.all(color: AppColors.borderLight),
                         ),
                         child: Row(
@@ -200,14 +213,19 @@ class _CartPageState extends State<CartPage> {
                                 children: [
                                   Text(
                                     product.title,
-                                    style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Gap(4.h),
                                   Text(
                                     '${CurrencyFormatter.formatVND(product.discountedPriceInVND)} x ${item.quantity} = ${CurrencyFormatter.formatVND(item.totalPriceInVND)}',
-                                    style: TextStyle(fontSize: 11.sp, color: AppColors.primary, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 11.sp,
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.w600),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -218,22 +236,28 @@ class _CartPageState extends State<CartPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.remove_circle_outline, size: 20, color: AppColors.primary),
+                                  icon: const Icon(Icons.remove_circle_outline,
+                                      size: 20, color: AppColors.primary),
                                   onPressed: () {
                                     context.read<CartBloc>().add(
-                                          CartItemQuantityUpdated(product.id, -1),
+                                          CartItemQuantityUpdated(
+                                              product.id, -1),
                                         );
                                   },
                                 ),
                                 Text(
                                   '${item.quantity}',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13.sp),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.add_circle_outline, size: 20, color: AppColors.primary),
+                                  icon: const Icon(Icons.add_circle_outline,
+                                      size: 20, color: AppColors.primary),
                                   onPressed: () {
                                     context.read<CartBloc>().add(
-                                          CartItemQuantityUpdated(product.id, 1),
+                                          CartItemQuantityUpdated(
+                                              product.id, 1),
                                         );
                                   },
                                 ),
@@ -252,7 +276,8 @@ class _CartPageState extends State<CartPage> {
                 padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(AppDimensions.radius16.r)),
+                  borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(AppDimensions.radius16.r)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.08),
@@ -275,11 +300,15 @@ class _CartPageState extends State<CartPage> {
                               textCapitalization: TextCapitalization.characters,
                               decoration: InputDecoration(
                                 hintText: 'Nhập mã coupon (VD: SALE50)',
-                                hintStyle: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                                contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                                hintStyle: TextStyle(
+                                    fontSize: 12.sp, color: Colors.grey),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12.w, vertical: 8.h),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(AppDimensions.radius12.r),
-                                  borderSide: const BorderSide(color: AppColors.borderLight),
+                                  borderRadius: BorderRadius.circular(
+                                      AppDimensions.radius12.r),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.borderLight),
                                 ),
                               ),
                             ),
@@ -290,7 +319,8 @@ class _CartPageState extends State<CartPage> {
                           height: 42.h,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+                              backgroundColor:
+                                  AppColors.primary.withValues(alpha: 0.1),
                               foregroundColor: AppColors.primary,
                               elevation: 0,
                             ),
@@ -307,16 +337,26 @@ class _CartPageState extends State<CartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Tạm tính (${state.totalItemCount} món):', style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 12.sp)),
-                        Text(CurrencyFormatter.formatVND(state.subtotalVND), style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600)),
+                        Text('Tạm tính (${state.totalItemCount} món):',
+                            style: TextStyle(
+                                color: AppColors.textSecondaryLight,
+                                fontSize: 12.sp)),
+                        Text(CurrencyFormatter.formatVND(state.subtotalVND),
+                            style: TextStyle(
+                                fontSize: 12.sp, fontWeight: FontWeight.w600)),
                       ],
                     ),
                     Gap(4.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Phí giao hàng:', style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 12.sp)),
-                        Text(CurrencyFormatter.formatVND(state.shippingFeeVND), style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600)),
+                        Text('Phí giao hàng:',
+                            style: TextStyle(
+                                color: AppColors.textSecondaryLight,
+                                fontSize: 12.sp)),
+                        Text(CurrencyFormatter.formatVND(state.shippingFeeVND),
+                            style: TextStyle(
+                                fontSize: 12.sp, fontWeight: FontWeight.w600)),
                       ],
                     ),
                     if (_discountCoupon > 0) ...[
@@ -324,8 +364,15 @@ class _CartPageState extends State<CartPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Mã giảm giá (SALE50):', style: TextStyle(color: AppColors.success, fontSize: 12.sp)),
-                          Text('-${CurrencyFormatter.formatVND(_discountCoupon)}', style: TextStyle(color: AppColors.success, fontSize: 12.sp, fontWeight: FontWeight.bold)),
+                          Text('Mã giảm giá (SALE50):',
+                              style: TextStyle(
+                                  color: AppColors.success, fontSize: 12.sp)),
+                          Text(
+                              '-${CurrencyFormatter.formatVND(_discountCoupon)}',
+                              style: TextStyle(
+                                  color: AppColors.success,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
@@ -348,10 +395,12 @@ class _CartPageState extends State<CartPage> {
 
                     // Nút Đặt Hàng
                     AppButton.gradient(
-                      text: 'Tiến Hành Đặt Hàng (${CurrencyFormatter.formatVND(finalTotal)})',
-                      iconPrefix: const Icon(Icons.lock_outline_rounded, color: Colors.white, size: 18),
+                      text:
+                          'Tiến Hành Đặt Hàng (${CurrencyFormatter.formatVND(finalTotal)})',
+                      iconPrefix: const Icon(Icons.lock_outline_rounded,
+                          color: Colors.white, size: 18),
                       isLoading: _isCheckingOut,
-                      onPressed: () => _handleCheckout(context, state),
+                      onPressed: () => _handleCheckout(state),
                     ),
                   ],
                 ),

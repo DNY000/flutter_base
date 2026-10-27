@@ -51,7 +51,8 @@ class AppShimmer extends StatelessWidget {
 
     return Shimmer.fromColors(
       baseColor: isDark ? const Color(0xFF2C2C2C) : AppColors.shimmerBase,
-      highlightColor: isDark ? const Color(0xFF3D3D3D) : AppColors.shimmerHighlight,
+      highlightColor:
+          isDark ? const Color(0xFF3D3D3D) : AppColors.shimmerHighlight,
       child: Container(
         width: width,
         height: height,

@@ -16,8 +16,9 @@
  */
 
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+
 import 'package:hive_ce_flutter/hive_flutter.dart';
+
 import '../utils/logger.dart';
 
 /// Đối tượng bọc dữ liệu kèm thông tin thời gian hết hạn TTL
@@ -56,7 +57,7 @@ class CacheEntry {
 
 abstract class IHiveStorage {
   Future<void> initialize();
-  
+
   /// Lưu dữ liệu vào cache kèm thời gian sống TTL tùy chọn (Ví dụ: Duration(hours: 2))
   Future<void> put(
     String key,
@@ -191,7 +192,8 @@ class HiveStorageImpl implements IHiveStorage {
     String boxName = defaultBoxName,
     bool ignoreExpiration = false,
   }) async {
-    final res = await get(key, boxName: boxName, ignoreExpiration: ignoreExpiration);
+    final res =
+        await get(key, boxName: boxName, ignoreExpiration: ignoreExpiration);
     if (res is Map<String, dynamic>) return res;
     if (res is Map) return Map<String, dynamic>.from(res);
     if (res is String) {
@@ -199,7 +201,9 @@ class HiveStorageImpl implements IHiveStorage {
         final decoded = jsonDecode(res);
         if (decoded is Map<String, dynamic>) return decoded;
         if (decoded is Map) return Map<String, dynamic>.from(decoded);
-      } catch (_) {}
+      } catch (e) {
+        AppLogger.d('Could not decode JSON Map for key "$key": $e');
+      }
     }
     return null;
   }
@@ -210,13 +214,16 @@ class HiveStorageImpl implements IHiveStorage {
     String boxName = defaultBoxName,
     bool ignoreExpiration = false,
   }) async {
-    final res = await get(key, boxName: boxName, ignoreExpiration: ignoreExpiration);
+    final res =
+        await get(key, boxName: boxName, ignoreExpiration: ignoreExpiration);
     if (res is List) return res;
     if (res is String) {
       try {
         final decoded = jsonDecode(res);
         if (decoded is List) return decoded;
-      } catch (_) {}
+      } catch (e) {
+        AppLogger.d('Could not decode JSON List for key "$key": $e');
+      }
     }
     return null;
   }
@@ -275,7 +282,8 @@ class HiveStorageImpl implements IHiveStorage {
 
       if (keysToDelete.isNotEmpty) {
         await box.deleteAll(keysToDelete);
-        AppLogger.info('📦 [HIVE STORAGE] Đã dọn dẹp ${keysToDelete.length} bản ghi cache hết hạn.');
+        AppLogger.info(
+            '📦 [HIVE STORAGE] Đã dọn dẹp ${keysToDelete.length} bản ghi cache hết hạn.');
       }
     } catch (e) {
       AppLogger.error('📦 [HIVE STORAGE] Lỗi dọn dẹp cache hết hạn: $e');

@@ -36,4 +36,9 @@ class ApiEndpoints {
   // Notifications
   static const String registerFcm = '/notifications/fcm-token';
   static const String getNotifications = '/notifications';
+
+  // Shop endpoints (DummyJSON E-Commerce)
+  static const String shopBaseUrl = 'https://dummyjson.com';
+  static const String shopProducts = '$shopBaseUrl/products';
+  static const String shopCategories = '$shopBaseUrl/products/category-list';
 }

@@ -1,11 +1,13 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'api_endpoints.dart';
+
+import '../config/app_config.dart';
+import '../storage/secure_storage.dart';
 import 'auth_interceptor.dart';
 import 'errors/exceptions.dart';
-import '../storage/secure_storage.dart';
 
 class DioClient {
   late final Dio _dio;
@@ -14,10 +16,13 @@ class DioClient {
     _dio = dio ??
         Dio(
           BaseOptions(
-            baseUrl: ApiEndpoints.baseUrl,
-            connectTimeout: ApiEndpoints.connectTimeout,
-            receiveTimeout: ApiEndpoints.receiveTimeout,
-            sendTimeout: ApiEndpoints.sendTimeout,
+            baseUrl: AppConfig.instance.apiBaseUrl,
+            connectTimeout:
+                Duration(seconds: AppConfig.instance.apiTimeoutSeconds),
+            receiveTimeout:
+                Duration(seconds: AppConfig.instance.apiTimeoutSeconds),
+            sendTimeout:
+                Duration(seconds: AppConfig.instance.apiTimeoutSeconds),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -30,11 +35,11 @@ class DioClient {
       AuthInterceptor(secureStorage: secureStorage, dio: _dio),
     );
 
-    // Interceptor: Logger (Chỉ bật khi Debug)
+    // Interceptor: Logger (Chỉ bật khi Debug, tắt requestHeader để bảo vệ Bearer Token)
     if (kDebugMode) {
       _dio.interceptors.add(
         PrettyDioLogger(
-          requestHeader: true,
+          requestHeader: false,
           requestBody: true,
           responseBody: true,
           responseHeader: false,
@@ -135,7 +140,7 @@ class DioClient {
     ProgressCallback? onSendProgress,
   }) async {
     try {
-      final fileName = file.path.split('/').last;
+      final fileName = file.path.split(RegExp(r'[/\\]')).last;
       final formData = FormData.fromMap({
         ...?extraData,
         fileKey: await MultipartFile.fromFile(file.path, filename: fileName),
@@ -157,17 +162,22 @@ class DioClient {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.connectionError:
-        return const NetworkException('Kết nối quá thời gian chờ. Vui lòng kiểm tra lại mạng.');
+        return const NetworkException(
+            'Kết nối quá thời gian chờ. Vui lòng kiểm tra lại mạng.');
 
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final responseData = error.response?.data;
 
         String errorMessage = 'Đã xảy ra lỗi từ máy chủ.';
-        if (responseData is Map<String, dynamic>) {
+        if (responseData is Map) {
           errorMessage = responseData['message']?.toString() ??
               responseData['error']?.toString() ??
               errorMessage;
+        } else if (responseData is String &&
+            responseData.isNotEmpty &&
+            responseData.length < 200) {
+          errorMessage = responseData;
         }
 
         if (statusCode == 401) {

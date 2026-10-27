@@ -32,14 +32,17 @@ class CrashMonitoringServiceImpl implements ICrashMonitoringService {
     this.isEnabled = true,
   }) : _crashlytics = crashlytics;
 
-  FirebaseCrashlytics get _instance => _crashlytics ?? FirebaseCrashlytics.instance;
+  FirebaseCrashlytics get _instance =>
+      _crashlytics ?? FirebaseCrashlytics.instance;
 
   @override
   void initialize() {
     if (!isEnabled) {
       try {
         _instance.setCrashlyticsCollectionEnabled(false);
-      } catch (_) {}
+      } catch (e) {
+        AppLogger.d('Crashlytics disable failed: $e', tag: 'CRASHLYTICS');
+      }
       return;
     }
 
@@ -55,7 +58,10 @@ class CrashMonitoringServiceImpl implements ICrashMonitoringService {
         );
         try {
           _instance.recordFlutterFatalError(details);
-        } catch (_) {}
+        } catch (e) {
+          AppLogger.d('Firebase recordFlutterFatalError failed: $e',
+              tag: 'CRASHLYTICS');
+        }
       };
 
       // 2. Tự động bắt toàn bộ ngoại lệ bất đồng bộ (Async / Platform Engine)
@@ -63,11 +69,15 @@ class CrashMonitoringServiceImpl implements ICrashMonitoringService {
         recordError(error, stack, fatal: true);
         try {
           _instance.recordError(error, stack, fatal: true);
-        } catch (_) {}
+        } catch (e) {
+          AppLogger.d('Firebase recordError on PlatformDispatcher failed: $e',
+              tag: 'CRASHLYTICS');
+        }
         return true; // Ngăn chặn app bị dừng đột ngột nếu có thể khôi phục
       };
 
-      AppLogger.info('🛡️ [CRASHLYTICS] Đã kích hoạt giám sát ngoại lệ và crash toàn cầu.');
+      AppLogger.info(
+          '🛡️ [CRASHLYTICS] Đã kích hoạt giám sát ngoại lệ và crash toàn cầu.');
     } catch (e) {
       AppLogger.error('🛡️ [CRASHLYTICS] Lỗi khi khởi tạo Crashlytics: $e');
     }
@@ -113,7 +123,10 @@ class CrashMonitoringServiceImpl implements ICrashMonitoringService {
     if (!isEnabled) return;
     try {
       await _instance.log(entry);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.d('Firebase Crashlytics log breadcrumb failed: $e',
+          tag: 'CRASHLYTICS');
+    }
   }
 
   @override

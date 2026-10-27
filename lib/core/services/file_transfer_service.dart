@@ -19,7 +19,8 @@ import '../network/dio_client.dart';
 import '../network/errors/exceptions.dart';
 import '../utils/logger.dart';
 
-typedef TransferProgressCallback = void Function(int count, int total, double percentage);
+typedef TransferProgressCallback = void Function(
+    int count, int total, double percentage);
 
 abstract class IFileTransferService {
   Future<File> downloadFile({
@@ -67,7 +68,13 @@ class FileTransferServiceImpl implements IFileTransferService {
       return File(savePath);
     } on DioException catch (e) {
       AppLogger.error('Lỗi khi tải tệp: ${e.message}');
-      throw ServerException(message: 'Tải tệp thất bại: ${e.message}', statusCode: e.response?.statusCode);
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        throw NetworkException('Không có kết nối Internet: ${e.message}');
+      }
+      throw ServerException(
+          message: 'Tải tệp thất bại: ${e.message}',
+          statusCode: e.response?.statusCode);
     }
   }
 
@@ -81,11 +88,12 @@ class FileTransferServiceImpl implements IFileTransferService {
     CancelToken? cancelToken,
   }) async {
     try {
-      final fileName = file.path.split(Platform.pathSeparator).last;
+      final fileName = file.path.split(RegExp(r'[/\\]')).last;
       AppLogger.info('⬆️ [UPLOAD] Bắt đầu tải lên: $fileName -> $url');
 
       final formDataMap = <String, dynamic>{
-        fileFieldName: await MultipartFile.fromFile(file.path, filename: fileName),
+        fileFieldName:
+            await MultipartFile.fromFile(file.path, filename: fileName),
         ...?extraFields,
       };
       final formData = FormData.fromMap(formDataMap);
@@ -105,7 +113,13 @@ class FileTransferServiceImpl implements IFileTransferService {
       return response.data;
     } on DioException catch (e) {
       AppLogger.error('Lỗi khi tải tệp lên: ${e.message}');
-      throw ServerException(message: 'Tải tệp lên thất bại: ${e.message}', statusCode: e.response?.statusCode);
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        throw NetworkException('Không có kết nối Internet: ${e.message}');
+      }
+      throw ServerException(
+          message: 'Tải tệp lên thất bại: ${e.message}',
+          statusCode: e.response?.statusCode);
     }
   }
 }

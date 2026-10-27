@@ -63,7 +63,8 @@ void main() {
       build: () => cartBloc,
       act: (bloc) => bloc.add(const CartItemAdded(tProduct1, quantity: 2)),
       expect: () => [
-        const CartState(items: [CartItemEntity(product: tProduct1, quantity: 2)]),
+        const CartState(
+            items: [CartItemEntity(product: tProduct1, quantity: 2)]),
       ],
       verify: (bloc) {
         expect(bloc.state.totalItemCount, equals(2));
@@ -74,20 +75,24 @@ void main() {
     blocTest<CartBloc, CartState>(
       'Cộng dồn số lượng khi thêm sản phẩm đã có trong giỏ hàng',
       build: () => cartBloc,
-      seed: () => const CartState(items: [CartItemEntity(product: tProduct1, quantity: 1)]),
+      seed: () => const CartState(
+          items: [CartItemEntity(product: tProduct1, quantity: 1)]),
       act: (bloc) => bloc.add(const CartItemAdded(tProduct1, quantity: 3)),
       expect: () => [
-        const CartState(items: [CartItemEntity(product: tProduct1, quantity: 4)]),
+        const CartState(
+            items: [CartItemEntity(product: tProduct1, quantity: 4)]),
       ],
     );
 
     blocTest<CartBloc, CartState>(
       'Tăng/giảm số lượng sản phẩm với CartItemQuantityUpdated',
       build: () => cartBloc,
-      seed: () => const CartState(items: [CartItemEntity(product: tProduct1, quantity: 2)]),
+      seed: () => const CartState(
+          items: [CartItemEntity(product: tProduct1, quantity: 2)]),
       act: (bloc) => bloc.add(const CartItemQuantityUpdated(1, 1)),
       expect: () => [
-        const CartState(items: [CartItemEntity(product: tProduct1, quantity: 3)]),
+        const CartState(
+            items: [CartItemEntity(product: tProduct1, quantity: 3)]),
       ],
     );
 
@@ -100,14 +105,16 @@ void main() {
       ]),
       act: (bloc) => bloc.add(const CartItemRemoved(1)),
       expect: () => [
-        const CartState(items: [CartItemEntity(product: tProduct2, quantity: 1)]),
+        const CartState(
+            items: [CartItemEntity(product: tProduct2, quantity: 1)]),
       ],
     );
 
     blocTest<CartBloc, CartState>(
       'Dọn sạch giỏ hàng với CartCleared',
       build: () => cartBloc,
-      seed: () => const CartState(items: [CartItemEntity(product: tProduct1, quantity: 5)]),
+      seed: () => const CartState(
+          items: [CartItemEntity(product: tProduct1, quantity: 5)]),
       act: (bloc) => bloc.add(CartCleared()),
       expect: () => [
         const CartState(items: []),

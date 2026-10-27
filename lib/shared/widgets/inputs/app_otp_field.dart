@@ -74,9 +74,12 @@ class AppOtpField extends StatelessWidget {
         activeColor: AppColors.primary,
         selectedColor: AppColors.primary,
         inactiveColor: isDark ? AppColors.borderDark : AppColors.borderLight,
-        activeFillColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        selectedFillColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        inactiveFillColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+        activeFillColor:
+            isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+        selectedFillColor:
+            isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+        inactiveFillColor:
+            isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
       ),
       enableActiveFill: true,
       animationDuration: const Duration(milliseconds: 200),
